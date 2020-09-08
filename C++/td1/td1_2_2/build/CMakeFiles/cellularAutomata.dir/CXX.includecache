@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/zhaoyuqiao/Desktop/SI4/C++/td1/td1_2_2/main.cpp
+iostream
+-
+random
+-
+unistd.h
+-
+
