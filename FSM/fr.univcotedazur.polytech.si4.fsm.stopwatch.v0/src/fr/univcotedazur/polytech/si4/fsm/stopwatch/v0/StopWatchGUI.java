@@ -23,7 +23,7 @@ public class StopWatchGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -8682173885223592966L;
-
+	protected 
 	protected int millis, secs, mins;
 	protected JButton leftButton, rightButton;
 	protected JPanel rootPanel;
