@@ -142,7 +142,6 @@ public class StopWatchGUI extends JFrame {
 //		theFSM.setTimer(timer);
 	    theFSM.init();
 	    theFSM.enter();
-
 		theFSM.getSCInterface().getListeners().add(
                 new StopWatchControlerInterfaceImplementation(this)
 );
