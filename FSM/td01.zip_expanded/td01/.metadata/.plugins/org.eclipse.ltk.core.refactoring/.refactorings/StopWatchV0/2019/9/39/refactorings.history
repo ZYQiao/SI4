@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;StopWatchV0/fr.unice.polytech.si4.stopwatch.v0/src/fr/unice/polytech/si4/stopwatch/v0/td01.sct&apos; to &apos;StopWatchGuiV0.sct&apos;" description="Rename resource &apos;td01.sct&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="fr.unice.polytech.si4.stopwatch.v0/src/fr/unice/polytech/si4/stopwatch/v0/td01.sct" name="StopWatchGuiV0.sct" stamp="1569575929402" updateReferences="true"/>&#x0A;&#x0A;&#x0A;</session>

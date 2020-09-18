@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.yakindu.sct.simulation.core.launch.statechart">
-<stringAttribute key="filename" value="/fr.unice.polytech.si4.stopwatch.v1/stateMachine/StopWatchGuiV0.sct"/>
-<stringAttribute key="operationClass" value=""/>
-</launchConfiguration>
