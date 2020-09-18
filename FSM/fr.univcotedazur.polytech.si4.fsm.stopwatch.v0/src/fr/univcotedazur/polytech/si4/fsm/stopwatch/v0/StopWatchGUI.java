@@ -11,6 +11,62 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.stopwatch.StopwatchStatemachine;
+import fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.stopwatch.IStopwatchStatemachine.SCInterfaceListener;
+
+class StopWatchControlerInterfaceImplementation implements SCInterfaceListener {
+	
+    StopWatchGUI theGui;
+    
+    public StopWatchControlerInterfaceImplementation(StopWatchGUI sw) {
+    	theGui = sw; }
+
+	@Override
+	public void onDoInitialRaised() {
+		// TODO Auto-generated method stub
+		theGui.millis = 0;
+		theGui.secs = 0;
+		theGui.mins = 0;
+		theGui.updateTimeValue();
+		theGui.leftButton.setText("start");
+		theGui.rightButton.setText("pause");
+	}
+
+	@Override
+	public void onDoStartRaised() {
+		// TODO Auto-generated method stub
+		theGui.msTimer.start();
+		theGui.myTimer.start();
+		theGui.updateTimeValue();
+		theGui.leftButton.setText("stop");
+	}
+
+	@Override
+	public void onDoPauseRaised() {
+		// TODO Auto-generated method stub
+		theGui.myTimer.stop();
+		theGui.updateTimeValue();
+		theGui.rightButton.setText("resume");
+	}
+
+	@Override
+	public void onDoResumeRaised() {
+		// TODO Auto-generated method stub
+		theGui.myTimer.start();
+		theGui.updateTimeValue();
+		theGui.rightButton.setText("pause");
+	}
+
+	@Override
+	public void onDoStopRaised() {
+		// TODO Auto-generated method stub
+		theGui.msTimer.stop();
+		theGui.myTimer.stop();
+		theGui.updateTimeValue();
+		theGui.leftButton.setText("reset");
+	}
+}
+
 
 /**
  * Simple old style GUI for the stopWatch used as a support for the {@see <a href="http://www.i3s.unice.fr/~deantoni/teaching_resources/SI4/FSM/">Finite State Machine course</a>}
@@ -23,13 +79,13 @@ public class StopWatchGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -8682173885223592966L;
-	protected 
+	
 	protected int millis, secs, mins;
 	protected JButton leftButton, rightButton;
 	protected JPanel rootPanel;
 	protected JLabel timeValue;
-	protected Timer msTimer;
-
+	protected Timer msTimer,myTimer;
+	protected StopwatchStatemachine theFSM;
 	
 	/**
 	 * add {@code nbMillisec} millisecondes to the current time encoded into mins, secs, millis.
@@ -76,6 +132,22 @@ public class StopWatchGUI extends JFrame {
 	 * @param ct
 	 */
 	public StopWatchGUI(int mn, int se, int ct) {
+		
+		
+	/**
+	 * initialiser la machine
+	 */
+		theFSM = new StopwatchStatemachine();
+//		TimerService timer = new TimerService();
+//		theFSM.setTimer(timer);
+	    theFSM.init();
+	    theFSM.enter();
+		theFSM.raiseLBt();
+		theFSM.raiseRBt();
+		theFSM.getSCInterface().getListeners().add(
+                new StopWatchControlerInterfaceImplementation(this)
+);
+		
 		mins = mn;
 		secs = se;
 		millis = ct;
@@ -86,7 +158,9 @@ public class StopWatchGUI extends JFrame {
 		leftButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				doStart();
+//				doStart();
+				theFSM.raiseLBt();
+				
 			}
 		});
 
@@ -94,7 +168,8 @@ public class StopWatchGUI extends JFrame {
 		rightButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				doStop();
+//				doStop();
+				theFSM.raiseRBt();
 			}
 		});
 
@@ -117,6 +192,14 @@ public class StopWatchGUI extends JFrame {
 			}
 		};
 		msTimer = new Timer(7, doCountEvery7);
+		
+		ActionListener doCountEvery10 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTimeValue();
+            }
+        };
+        myTimer = new Timer(10, doCountEvery10);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(rootPanel);
@@ -128,6 +211,7 @@ public class StopWatchGUI extends JFrame {
 	}
 
 	public static void main(String args[]) {
+		
 		new StopWatchGUI(0, 0, 0);
 	}
 }
