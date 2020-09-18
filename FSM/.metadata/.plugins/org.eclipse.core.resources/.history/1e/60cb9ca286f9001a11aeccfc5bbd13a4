@@ -1,0 +1,4 @@
+source.v0.jar = src/
+bin.includes = META-INF/,\
+               libs/reactfx-1.4.1.jar,\
+               v0.jar

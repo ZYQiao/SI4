@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.yakindu.sct.generator.polytech.java;singleton
+ :=true
+Export-Package: org.reactfx,org.reactfx.inhibeans,org.reactfx.inhibean
+ s.binding,org.reactfx.inhibeans.collection,org.reactfx.inhibeans.prop
+ erty,org.reactfx.inhibeans.value,org.reactfx.util,org.yakindu.sct.gen
+ erator.polytech.java,org.yakindu.sct.generator.polytech.java.features
+ ,org.yakindu.sct.generator.polytech.java.types
+Bundle-Name: YAKINDU Java Generator modified by Julien Deantoni
+Bundle-Version: 3.4.1.201909271005
+Bundle-ClassPath: .,libs/reactfx-1.4.1.jar
+Require-Bundle: org.yakindu.sct.model.stext,org.yakindu.sct.generator.
+ core,org.yakindu.sct.generator.genmodel,org.yakindu.sct.model.stext.l
+ ib
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+

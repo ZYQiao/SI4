@@ -1,0 +1,16 @@
+GeneratorModel for yakindu::deantoni::java {
+
+	statechart td01 {
+
+		feature Outlet {
+			targetProject = "fr.unice.polytech.si4.stopwatch.v1"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+		feature GeneralFeatures {
+			RuntimeService = true
+			TimerService = true
+		}
+		
+	}
+}

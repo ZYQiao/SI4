@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.yakindu.sct.simulation.core.launch.statechart">
+<stringAttribute key="filename" value="/StopWatchV0/fr.unice.polytech.si4.stopwatch.v0/src/fr/unice/polytech/si4/stopwatch/v0/StopWatchGuiV0.sct"/>
+<stringAttribute key="operationClass" value=""/>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+</launchConfiguration>

@@ -1,0 +1,222 @@
+package fr.unice.polytech.si4.stopwatch.v0;
+
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import fr.unice.polytech.si4.stopwatch.v1.td01.ITd01Statemachine.SCInterface;
+import fr.unice.polytech.si4.stopwatch.v1.td01.Td01Statemachine;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Labeled;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+/**
+ * A simple StopWatch class in JavaFx to be used for state chart learning.
+ * @author jdeanton
+ *
+ */
+public class StopWatchGuiV0 extends Application{
+	private Text timeValue 	   = null;
+	private Timeline updateDisplay  = null;
+	private long mins = 0, secs = 0, millis = 0;
+	private long startTime = 0, endTime = 0;
+	private Button leftButton;
+	private Button rightButton;
+	private static Td01Statemachine theFSM;
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+	@SuppressWarnings("null")
+	@Override
+	public void start(Stage stage) throws NoSuchMethodException, SecurityException {
+		leftButton = new Button("Start");
+		rightButton = new Button("Pause");
+		
+		timeValue = new Text("00:00:000");
+		
+		updateDisplay = setupTimer(7, this.getClass().getMethod("updateText"));
+		theFSM = new Td01Statemachine();
+		theFSM.init();
+		theFSM.enter();
+		SCInterface.start.subscribe(e -> doStart());
+		SCInterface.stop.subscribe(e -> doStop());
+		SCInterface.init.subscribe(s -> doInit());
+		
+		leftButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+//				if(leftButton.getText().equals("Start")) {
+//					//TODO: add correct stopwatch logic here instead of the crazy behavior that follows	
+//			    	secs = 0;
+//			    	mins = 0;
+//					updateDisplay.play();
+//					leftButton.setText("Stop");
+//				}else if(leftButton.getText().equals("Stop")){
+//					updateDisplay.pause();
+//					leftButton.setText("Reset");
+//				}else if(leftButton.getText().equals("Reset")) {
+//					timeValue.setText("00:00:000");
+//	            	updateDisplay.pause();
+//					leftButton.setText("Start");
+//					rightButton.setText("Pause");
+//				}
+				theFSM.getSCInterface().raiseLeftB();
+				
+			}
+
+			
+		});	
+		
+		rightButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	//TODO : add correct stopwatch logic here instead of the crazy behavior that follows
+//				if(rightButton.getText().equals("Pause")) {
+//					//TODO: add correct stopwatch logic here instead of the crazy behavior that follows	
+//					if(leftButton.getText().equals("Start") || leftButton.getText().equals("Reset")) {
+//						updateDisplay.pause();
+//					}else {
+//						updateDisplay.pause();
+//						rightButton.setText("Continue");
+//					}
+//				}else{
+//					if(leftButton.getText().equals("Reset")) {
+//						updateDisplay.pause();
+//					}else {
+//						updateDisplay.play();
+//						rightButton.setText("Pause");
+//					}
+//				}
+            	theFSM.getSCInterface().raiseRightB();
+            	SCInterface.pause.subscribe(e -> doPause());
+            }
+            
+        });
+		
+		setupUI(stage, leftButton, rightButton);
+	}
+
+	
+	private void doInit() {
+		// TODO Auto-generated method stub
+		timeValue.setText("00:00:000");
+    	updateDisplay.pause();
+		leftButton.setText("Start");
+		rightButton.setText("Pause");
+	}
+
+	private void doStop() {
+		// TODO Auto-generated method stub
+		updateDisplay.pause();
+		leftButton.setText("Reset");
+	}
+
+	private void doStart() {
+		// TODO Auto-generated method stub
+    	secs = 0;
+    	mins = 0;
+		updateDisplay.play();
+		leftButton.setText("Stop");
+	}
+	
+	private void doPause() {
+		// TODO Auto-generated method stub
+		if(rightButton.getText().equals("Pause")) {
+			//TODO: add correct stopwatch logic here instead of the crazy behavior that follows	
+			if(leftButton.getText().equals("Start") || leftButton.getText().equals("Reset")) {
+				updateDisplay.pause();
+			}else {
+				updateDisplay.pause();
+				rightButton.setText("Continue");
+			}
+		}else{
+			if(leftButton.getText().equals("Reset")) {
+				updateDisplay.pause();
+			}else {
+				updateDisplay.play();
+				rightButton.setText("Pause");
+			}
+		}
+	}
+	
+	
+	/**
+	 * Helper method to setup a timeline acting as a periodic timer
+	 * 
+	 * @param DurationInMs: the period
+	 * @param toRun: the method to be call periodically
+	 * @return
+	 */
+	private Timeline setupTimer(int DurationInMs, Method method) {
+		StopWatchGuiV0 theGui = this;
+		Timeline temp = new Timeline(new KeyFrame(Duration.millis(DurationInMs), new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					method.invoke(theGui);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					System.err.println("error while invoking user method in StopWatchGuiV0::setupTimer");
+					e.printStackTrace();
+				}
+			}
+		}));
+		temp.setCycleCount(Timeline.INDEFINITE);
+		temp.setAutoReverse(false);
+		return temp;
+	}
+	
+	public void updateText() {
+    	endTime  = System.currentTimeMillis();
+    	millis = endTime - startTime;  
+		if(millis >= 1000) {
+			secs++;
+        	startTime = System.currentTimeMillis();
+	    	millis = endTime - startTime;  
+		}
+		if(secs >= 60) {
+			mins++;
+			secs = 60 - secs;
+		}
+		timeValue.setText((((mins/10) == 0) ? "0" : "") + mins + ":"
+		 + (((secs/10) == 0) ? "0" : "") + secs + ":" 
+			+ (((millis/10) == 0) ? "00" : (((millis/100) == 0) ? "0" : "")) + millis);
+	}
+
+	private void setupUI(Stage stage, Button leftButton, Button rightButton) {
+		Scene scene = null;
+		VBox vBox = null;
+		HBox hBox = null;
+		hBox = new HBox(300);
+		hBox.setAlignment(Pos.CENTER);
+		hBox.getChildren().addAll(leftButton, rightButton);
+		vBox = new VBox(30);
+		vBox.setAlignment(Pos.CENTER);
+		vBox.getChildren().addAll(timeValue, hBox);
+		
+		scene = new Scene(vBox, 550, 250);
+		stage.setScene(scene);
+        stage.setTitle("Stopwatch");
+    	//cosmetics
+		String css = this.getClass().getResource("myStyle.css").toExternalForm();
+		scene.getStylesheets().add(css);
+		timeValue.setId("timeText");
+		
+		stage.show();
+		
+	
+	}
+	
+}
