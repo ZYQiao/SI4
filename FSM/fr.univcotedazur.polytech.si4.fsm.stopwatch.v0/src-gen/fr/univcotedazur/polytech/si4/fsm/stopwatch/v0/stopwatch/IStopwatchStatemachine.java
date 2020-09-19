@@ -2,18 +2,21 @@
 package fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.stopwatch;
 
 import fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.IStatemachine;
+import fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.ITimerCallback;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public interface IStopwatchStatemachine extends IStatemachine {
+public interface IStopwatchStatemachine extends ITimerCallback,IStatemachine {
 	public interface SCInterface {
 	
 		public void raiseRBt();
 		
 		public void raiseLBt();
+		
+		public void raiseMBt();
 		
 		public boolean isRaisedDoInitial();
 		
@@ -25,6 +28,10 @@ public interface IStopwatchStatemachine extends IStatemachine {
 		
 		public boolean isRaisedDoStop();
 		
+		public boolean isRaisedDoHour();
+		
+		public boolean isRaisedDoDate();
+		
 	public List<SCInterfaceListener> getListeners();
 	}
 	
@@ -35,6 +42,8 @@ public interface IStopwatchStatemachine extends IStatemachine {
 		public void onDoPauseRaised();
 		public void onDoResumeRaised();
 		public void onDoStopRaised();
+		public void onDoHourRaised();
+		public void onDoDateRaised();
 		}
 	
 	public SCInterface getSCInterface();

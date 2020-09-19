@@ -10,16 +10,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.stopwatch.StopwatchStatemachine;
 import fr.univcotedazur.polytech.si4.fsm.stopwatch.v0.stopwatch.IStopwatchStatemachine.SCInterfaceListener;
 
-class StopWatchControlerInterfaceImplementation implements SCInterfaceListener {
+class StopWatchInterfaceImplementation implements SCInterfaceListener {
 	
     StopWatchGUI theGui;
     
-    public StopWatchControlerInterfaceImplementation(StopWatchGUI sw) {
-    	theGui = sw; }
+    public StopWatchInterfaceImplementation(StopWatchGUI sw) {
+    	theGui = sw; 
+    }
 
 	@Override
 	public void onDoInitialRaised() {
@@ -65,6 +68,26 @@ class StopWatchControlerInterfaceImplementation implements SCInterfaceListener {
 		theGui.updateTimeValue();
 		theGui.leftButton.setText("reset");
 	}
+
+	@Override
+	public void onDoHourRaised() {
+		// TODO Auto-generated method stub
+		theGui.myTimer.stop();
+		SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间 
+        sdf.applyPattern("HH:mm:ss a");// a为am/pm的标记  
+        Date date = new Date();// 获取当前时间
+        theGui.timeValue.setText(sdf.format(date));
+		
+	}
+
+	@Override
+	public void onDoDateRaised() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间 
+        sdf.applyPattern("yyyy-MM-dd");// a为am/pm的标记  
+        Date date = new Date();
+        theGui.timeValue.setText(sdf.format(date));
+	}
 }
 
 
@@ -81,7 +104,7 @@ public class StopWatchGUI extends JFrame {
 	private static final long serialVersionUID = -8682173885223592966L;
 	
 	protected int millis, secs, mins;
-	protected JButton leftButton, rightButton;
+	protected JButton leftButton, midButton, rightButton;
 	protected JPanel rootPanel;
 	protected JLabel timeValue;
 	protected Timer msTimer,myTimer;
@@ -138,12 +161,12 @@ public class StopWatchGUI extends JFrame {
 	 * initialiser la machine
 	 */
 		theFSM = new StopwatchStatemachine();
-//		TimerService timer = new TimerService();
-//		theFSM.setTimer(timer);
+		TimerService timer = new TimerService();
+		theFSM.setTimer(timer);
 	    theFSM.init();
 	    theFSM.enter();
 		theFSM.getSCInterface().getListeners().add(
-                new StopWatchControlerInterfaceImplementation(this)
+                new StopWatchInterfaceImplementation(this)
 );
 		
 		mins = mn;
@@ -161,7 +184,15 @@ public class StopWatchGUI extends JFrame {
 				
 			}
 		});
-
+		
+		midButton = new JButton("Appuyez-moi");
+		midButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseMBt();
+			}
+		});
+		
 		rightButton = new JButton("pause");
 		rightButton.addActionListener(new ActionListener() {
 			@Override
@@ -178,6 +209,7 @@ public class StopWatchGUI extends JFrame {
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(leftButton);
+		buttonPanel.add(midButton);
 		buttonPanel.add(rightButton);
 		rootPanel.add(buttonPanel);
 		this.add(rootPanel);
