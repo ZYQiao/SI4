@@ -1,15 +1,21 @@
 package fr.univcotedazur.polytech.si4.fsm.stopwatch.v0;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import javax.swing.Timer;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -88,6 +94,29 @@ class StopWatchInterfaceImplementation implements SCInterfaceListener {
         Date date = new Date();
         theGui.timeValue.setText(sdf.format(date));
 	}
+
+	@Override
+	public void onDoClearTitleRaised() {
+		// TODO Auto-generated method stub
+		for(JLabel l : theGui.titles) {
+			l.setText("00:00:000");
+		}
+		theGui.midButton.setText("record");
+		theGui.p_i = 0;
+	}
+
+	@Override
+	public void onDoRecordRaised() {
+		// TODO Auto-generated method stub
+		theGui.updateRecord();
+		theGui.midButton.setText("clear");
+	}
+
+	@Override
+	public void onDoChangeButtonNameRaised() {
+		// TODO Auto-generated method stub
+		theGui.midButton.setText("record");
+	}
 }
 
 
@@ -103,10 +132,11 @@ public class StopWatchGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = -8682173885223592966L;
 	
-	protected int millis, secs, mins;
+	protected int millis, secs, mins, p_i = 0;
 	protected JButton leftButton, midButton, rightButton;
 	protected JPanel rootPanel;
 	protected JLabel timeValue;
+	protected JLabel[] titles;
 	protected Timer msTimer,myTimer;
 	protected StopwatchStatemachine theFSM;
 	
@@ -131,10 +161,16 @@ public class StopWatchGUI extends JFrame {
 	 */
 	protected void updateTimeValue() {
 		timeValue.setText((((mins / 10) == 0) ? "0" : "") + mins + ":" + (((secs / 10) == 0) ? "0" : "") + secs + ":"
-				+ (((millis / 10) == 0) ? "00" : (((millis / 100) == 0) ? "0" : "")) + millis);
+				+ (((millis / 10) == 0) ? "00" : (((millis / 100) == 0) ? "0" : "")) + millis+"\n");
 		repaint();
 	}
 
+	protected void updateRecord() {
+		titles[p_i].setText((((mins / 10) == 0) ? "0" : "") + mins + ":" + (((secs / 10) == 0) ? "0" : "") + secs + ":"
+				+ (((millis / 10) == 0) ? "00" : (((millis / 100) == 0) ? "0" : "")) + millis);
+		repaint();
+		p_i = (p_i+1)%5;
+	}
 	protected void doStart() {
 		msTimer.start();
 		updateTimeValue();
@@ -146,6 +182,8 @@ public class StopWatchGUI extends JFrame {
 		updateTimeValue();
 		leftButton.setText("start");
 	}
+	
+	
 
 	
 	/**
@@ -167,14 +205,16 @@ public class StopWatchGUI extends JFrame {
 	    theFSM.enter();
 		theFSM.getSCInterface().getListeners().add(
                 new StopWatchInterfaceImplementation(this)
-);
+				);
 		
 		mins = mn;
 		secs = se;
 		millis = ct;
 
 		// graphics init and listener settings
+	
 		rootPanel = new JPanel();
+		rootPanel.setLayout(new BoxLayout(rootPanel,BoxLayout.Y_AXIS));
 		leftButton = new JButton("start");
 		leftButton.addActionListener(new ActionListener() {
 			@Override
@@ -185,7 +225,7 @@ public class StopWatchGUI extends JFrame {
 			}
 		});
 		
-		midButton = new JButton("Appuyez-moi");
+		midButton = new JButton("record");
 		midButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -206,35 +246,48 @@ public class StopWatchGUI extends JFrame {
 		timeValue.setFont(new Font("Courier", Font.BOLD, 25));
 		updateTimeValue();
 		rootPanel.add(timeValue);
+		timeValue.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(leftButton);
 		buttonPanel.add(midButton);
 		buttonPanel.add(rightButton);
 		rootPanel.add(buttonPanel);
+		buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+	
+		titles = new JLabel[5];
+		for(int i = 0; i < 5; i++) {
+			titles[i] = new JLabel();
+			titles[i].setFont(new Font("Courier", Font.BOLD, 25));
+			titles[i].setText("00:00:000");
+			rootPanel.add(titles[i]);
+			titles[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+		}
 		this.add(rootPanel);
 
 		// init a msTimer which is ready to do an action every 7 ms
 		ActionListener doCountEvery7 = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				count(7);
+				count(1);
 			}
 		};
-		msTimer = new Timer(7, doCountEvery7);
+		msTimer = new Timer(1, doCountEvery7);
 		
-		ActionListener doCountEvery10 = new ActionListener() {
+		ActionListener doUpdate = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateTimeValue();
             }
         };
-        myTimer = new Timer(10, doCountEvery10);
+        myTimer = new Timer(1, doUpdate);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(rootPanel);
-		setSize(200, 110);
-		setResizable(true);
+		setSize(280, 220);
+		setResizable(false);
 		setTitle("stopwatch");
 		setVisible(true);
 

@@ -32,6 +32,12 @@ public interface IStopwatchStatemachine extends ITimerCallback,IStatemachine {
 		
 		public boolean isRaisedDoDate();
 		
+		public boolean isRaisedDoClearTitle();
+		
+		public boolean isRaisedDoRecord();
+		
+		public boolean isRaisedDoChangeButtonName();
+		
 	public List<SCInterfaceListener> getListeners();
 	}
 	
@@ -44,6 +50,9 @@ public interface IStopwatchStatemachine extends ITimerCallback,IStatemachine {
 		public void onDoStopRaised();
 		public void onDoHourRaised();
 		public void onDoDateRaised();
+		public void onDoClearTitleRaised();
+		public void onDoRecordRaised();
+		public void onDoChangeButtonNameRaised();
 		}
 	
 	public SCInterface getSCInterface();

@@ -196,6 +196,60 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 			}
 		}
 		
+		private boolean doClearTitle;
+		
+		
+		public boolean isRaisedDoClearTitle() {
+			synchronized(StopwatchStatemachine.this) {
+				return doClearTitle;
+			}
+		}
+		
+		protected void raiseDoClearTitle() {
+			synchronized(StopwatchStatemachine.this) {
+				doClearTitle = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoClearTitleRaised();
+				}
+			}
+		}
+		
+		private boolean doRecord;
+		
+		
+		public boolean isRaisedDoRecord() {
+			synchronized(StopwatchStatemachine.this) {
+				return doRecord;
+			}
+		}
+		
+		protected void raiseDoRecord() {
+			synchronized(StopwatchStatemachine.this) {
+				doRecord = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoRecordRaised();
+				}
+			}
+		}
+		
+		private boolean doChangeButtonName;
+		
+		
+		public boolean isRaisedDoChangeButtonName() {
+			synchronized(StopwatchStatemachine.this) {
+				return doChangeButtonName;
+			}
+		}
+		
+		protected void raiseDoChangeButtonName() {
+			synchronized(StopwatchStatemachine.this) {
+				doChangeButtonName = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoChangeButtonNameRaised();
+				}
+			}
+		}
+		
 		protected void clearEvents() {
 			rBt = false;
 			lBt = false;
@@ -210,6 +264,9 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		doStop = false;
 		doHour = false;
 		doDate = false;
+		doClearTitle = false;
+		doRecord = false;
+		doChangeButtonName = false;
 		}
 		
 	}
@@ -226,20 +283,18 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		main_region_watch_r1_StateResume,
 		main_region_watch_r1_StateStop,
 		main_region_watch_r1_StateInitial,
-		main_region_date,
-		main_region_date_date_hour_StateHour,
-		main_region_date_date_hour_StateDate,
+		main_region_watch_record_StateRecord,
+		main_region_watch_record_StateIntial,
 		$NullState$
 	};
 	
-	private State[] historyVector = new State[1];
-	private final State[] stateVector = new State[1];
+	private final State[] stateVector = new State[2];
 	
 	private int nextStateIndex;
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[2];
+	private final boolean[] timeEvents = new boolean[1];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -252,11 +307,8 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		if (timer == null) {
 			throw new IllegalStateException("timer not set.");
 		}
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 2; i++) {
 			stateVector[i] = State.$NullState$;
-		}
-		for (int i = 0; i < 1; i++) {
-			historyVector[i] = State.$NullState$;
 		}
 		clearEvents();
 		clearOutEvents();
@@ -318,11 +370,11 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 			case main_region_watch_r1_StateInitial:
 				main_region_watch_r1_StateInitial_react(true);
 				break;
-			case main_region_date_date_hour_StateHour:
-				main_region_date_date_hour_StateHour_react(true);
+			case main_region_watch_record_StateRecord:
+				main_region_watch_record_StateRecord_react(true);
 				break;
-			case main_region_date_date_hour_StateDate:
-				main_region_date_date_hour_StateDate_react(true);
+			case main_region_watch_record_StateIntial:
+				main_region_watch_record_StateIntial_react(true);
 				break;
 			default:
 				// $NullState$
@@ -354,7 +406,7 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 	 * @see IStatemachine#isActive()
 	 */
 	public synchronized boolean isActive() {
-		return stateVector[0] != State.$NullState$;
+		return stateVector[0] != State.$NullState$||stateVector[1] != State.$NullState$;
 	}
 	
 	/** 
@@ -390,7 +442,7 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		switch (state) {
 		case main_region_watch:
 			return stateVector[0].ordinal() >= State.
-					main_region_watch.ordinal()&& stateVector[0].ordinal() <= State.main_region_watch_r1_StateInitial.ordinal();
+					main_region_watch.ordinal()&& stateVector[0].ordinal() <= State.main_region_watch_record_StateIntial.ordinal();
 		case main_region_watch_r1_StatePause:
 			return stateVector[0] == State.main_region_watch_r1_StatePause;
 		case main_region_watch_r1_StateStart:
@@ -401,13 +453,10 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 			return stateVector[0] == State.main_region_watch_r1_StateStop;
 		case main_region_watch_r1_StateInitial:
 			return stateVector[0] == State.main_region_watch_r1_StateInitial;
-		case main_region_date:
-			return stateVector[0].ordinal() >= State.
-					main_region_date.ordinal()&& stateVector[0].ordinal() <= State.main_region_date_date_hour_StateDate.ordinal();
-		case main_region_date_date_hour_StateHour:
-			return stateVector[0] == State.main_region_date_date_hour_StateHour;
-		case main_region_date_date_hour_StateDate:
-			return stateVector[0] == State.main_region_date_date_hour_StateDate;
+		case main_region_watch_record_StateRecord:
+			return stateVector[1] == State.main_region_watch_record_StateRecord;
+		case main_region_watch_record_StateIntial:
+			return stateVector[1] == State.main_region_watch_record_StateIntial;
 		default:
 			return false;
 		}
@@ -488,6 +537,18 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		return sCInterface.isRaisedDoDate();
 	}
 	
+	public synchronized boolean isRaisedDoClearTitle() {
+		return sCInterface.isRaisedDoClearTitle();
+	}
+	
+	public synchronized boolean isRaisedDoRecord() {
+		return sCInterface.isRaisedDoRecord();
+	}
+	
+	public synchronized boolean isRaisedDoChangeButtonName() {
+		return sCInterface.isRaisedDoChangeButtonName();
+	}
+	
 	/* Entry action for state 'StatePause'. */
 	private void entryAction_main_region_watch_r1_StatePause() {
 		sCInterface.raiseDoPause();
@@ -513,33 +574,22 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		sCInterface.raiseDoInitial();
 	}
 	
-	/* Entry action for state 'StateHour'. */
-	private void entryAction_main_region_date_date_hour_StateHour() {
+	/* Entry action for state 'StateRecord'. */
+	private void entryAction_main_region_watch_record_StateRecord() {
 		timer.setTimer(this, 0, (1 * 1000), false);
 		
-		sCInterface.raiseDoHour();
+		sCInterface.raiseDoRecord();
 	}
 	
-	/* Entry action for state 'StateDate'. */
-	private void entryAction_main_region_date_date_hour_StateDate() {
-		timer.setTimer(this, 1, (1 * 1000), false);
-		
-		sCInterface.raiseDoDate();
-	}
-	
-	/* Exit action for state 'StateHour'. */
-	private void exitAction_main_region_date_date_hour_StateHour() {
+	/* Exit action for state 'StateRecord'. */
+	private void exitAction_main_region_watch_record_StateRecord() {
 		timer.unsetTimer(this, 0);
-	}
-	
-	/* Exit action for state 'StateDate'. */
-	private void exitAction_main_region_date_date_hour_StateDate() {
-		timer.unsetTimer(this, 1);
 	}
 	
 	/* 'default' enter sequence for state watch */
 	private void enterSequence_main_region_watch_default() {
 		enterSequence_main_region_watch_r1_default();
+		enterSequence_main_region_watch_record_default();
 	}
 	
 	/* 'default' enter sequence for state StatePause */
@@ -547,8 +597,6 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		entryAction_main_region_watch_r1_StatePause();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_watch_r1_StatePause;
-		
-		historyVector[0] = stateVector[0];
 	}
 	
 	/* 'default' enter sequence for state StateStart */
@@ -556,8 +604,6 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		entryAction_main_region_watch_r1_StateStart();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_watch_r1_StateStart;
-		
-		historyVector[0] = stateVector[0];
 	}
 	
 	/* 'default' enter sequence for state StateResume */
@@ -565,8 +611,6 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		entryAction_main_region_watch_r1_StateResume();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_watch_r1_StateResume;
-		
-		historyVector[0] = stateVector[0];
 	}
 	
 	/* 'default' enter sequence for state StateStop */
@@ -574,8 +618,6 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		entryAction_main_region_watch_r1_StateStop();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_watch_r1_StateStop;
-		
-		historyVector[0] = stateVector[0];
 	}
 	
 	/* 'default' enter sequence for state StateInitial */
@@ -583,22 +625,19 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		entryAction_main_region_watch_r1_StateInitial();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_watch_r1_StateInitial;
-		
-		historyVector[0] = stateVector[0];
 	}
 	
-	/* 'default' enter sequence for state StateHour */
-	private void enterSequence_main_region_date_date_hour_StateHour_default() {
-		entryAction_main_region_date_date_hour_StateHour();
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_date_date_hour_StateHour;
+	/* 'default' enter sequence for state StateRecord */
+	private void enterSequence_main_region_watch_record_StateRecord_default() {
+		entryAction_main_region_watch_record_StateRecord();
+		nextStateIndex = 1;
+		stateVector[1] = State.main_region_watch_record_StateRecord;
 	}
 	
-	/* 'default' enter sequence for state StateDate */
-	private void enterSequence_main_region_date_date_hour_StateDate_default() {
-		entryAction_main_region_date_date_hour_StateDate();
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_date_date_hour_StateDate;
+	/* 'default' enter sequence for state StateIntial */
+	private void enterSequence_main_region_watch_record_StateIntial_default() {
+		nextStateIndex = 1;
+		stateVector[1] = State.main_region_watch_record_StateIntial;
 	}
 	
 	/* 'default' enter sequence for region main region */
@@ -611,32 +650,9 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		react_main_region_watch_r1__entry_Default();
 	}
 	
-	/* shallow enterSequence with history in child r1 */
-	private void shallowEnterSequence_main_region_watch_r1() {
-		switch (historyVector[0]) {
-		case main_region_watch_r1_StatePause:
-			enterSequence_main_region_watch_r1_StatePause_default();
-			break;
-		case main_region_watch_r1_StateStart:
-			enterSequence_main_region_watch_r1_StateStart_default();
-			break;
-		case main_region_watch_r1_StateResume:
-			enterSequence_main_region_watch_r1_StateResume_default();
-			break;
-		case main_region_watch_r1_StateStop:
-			enterSequence_main_region_watch_r1_StateStop_default();
-			break;
-		case main_region_watch_r1_StateInitial:
-			enterSequence_main_region_watch_r1_StateInitial_default();
-			break;
-		default:
-			break;
-		}
-	}
-	
-	/* Default exit sequence for state watch */
-	private void exitSequence_main_region_watch() {
-		exitSequence_main_region_watch_r1();
+	/* 'default' enter sequence for region record */
+	private void enterSequence_main_region_watch_record_default() {
+		react_main_region_watch_record__entry_Default();
 	}
 	
 	/* Default exit sequence for state StatePause */
@@ -669,25 +685,18 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		stateVector[0] = State.$NullState$;
 	}
 	
-	/* Default exit sequence for state date */
-	private void exitSequence_main_region_date() {
-		exitSequence_main_region_date_date_hour();
+	/* Default exit sequence for state StateRecord */
+	private void exitSequence_main_region_watch_record_StateRecord() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NullState$;
+		
+		exitAction_main_region_watch_record_StateRecord();
 	}
 	
-	/* Default exit sequence for state StateHour */
-	private void exitSequence_main_region_date_date_hour_StateHour() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-		
-		exitAction_main_region_date_date_hour_StateHour();
-	}
-	
-	/* Default exit sequence for state StateDate */
-	private void exitSequence_main_region_date_date_hour_StateDate() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-		
-		exitAction_main_region_date_date_hour_StateDate();
+	/* Default exit sequence for state StateIntial */
+	private void exitSequence_main_region_watch_record_StateIntial() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NullState$;
 	}
 	
 	/* Default exit sequence for region main region */
@@ -708,48 +717,16 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		case main_region_watch_r1_StateInitial:
 			exitSequence_main_region_watch_r1_StateInitial();
 			break;
-		case main_region_date_date_hour_StateHour:
-			exitSequence_main_region_date_date_hour_StateHour();
-			break;
-		case main_region_date_date_hour_StateDate:
-			exitSequence_main_region_date_date_hour_StateDate();
-			break;
 		default:
 			break;
 		}
-	}
-	
-	/* Default exit sequence for region r1 */
-	private void exitSequence_main_region_watch_r1() {
-		switch (stateVector[0]) {
-		case main_region_watch_r1_StatePause:
-			exitSequence_main_region_watch_r1_StatePause();
+		
+		switch (stateVector[1]) {
+		case main_region_watch_record_StateRecord:
+			exitSequence_main_region_watch_record_StateRecord();
 			break;
-		case main_region_watch_r1_StateStart:
-			exitSequence_main_region_watch_r1_StateStart();
-			break;
-		case main_region_watch_r1_StateResume:
-			exitSequence_main_region_watch_r1_StateResume();
-			break;
-		case main_region_watch_r1_StateStop:
-			exitSequence_main_region_watch_r1_StateStop();
-			break;
-		case main_region_watch_r1_StateInitial:
-			exitSequence_main_region_watch_r1_StateInitial();
-			break;
-		default:
-			break;
-		}
-	}
-	
-	/* Default exit sequence for region date_hour */
-	private void exitSequence_main_region_date_date_hour() {
-		switch (stateVector[0]) {
-		case main_region_date_date_hour_StateHour:
-			exitSequence_main_region_date_date_hour_StateHour();
-			break;
-		case main_region_date_date_hour_StateDate:
-			exitSequence_main_region_date_date_hour_StateDate();
+		case main_region_watch_record_StateIntial:
+			exitSequence_main_region_watch_record_StateIntial();
 			break;
 		default:
 			break;
@@ -761,14 +738,9 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		enterSequence_main_region_watch_r1_StateInitial_default();
 	}
 	
-	/* Default react sequence for shallow history entry history */
-	private void react_main_region_watch_r1_history() {
-		/* Enter the region with shallow history */
-		if (historyVector[0] != State.$NullState$) {
-			shallowEnterSequence_main_region_watch_r1();
-		} else {
-			enterSequence_main_region_watch_r1_StateInitial_default();
-		}
+	/* Default react sequence for initial entry  */
+	private void react_main_region_watch_record__entry_Default() {
+		enterSequence_main_region_watch_record_StateIntial_default();
 	}
 	
 	/* Default react sequence for initial entry  */
@@ -784,13 +756,7 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.mBt) {
-				exitSequence_main_region_watch();
-				enterSequence_main_region_date_date_hour_StateHour_default();
-				react();
-			} else {
-				did_transition = false;
-			}
+			did_transition = false;
 		}
 		if (did_transition==false) {
 			did_transition = react();
@@ -805,19 +771,14 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 			if (sCInterface.lBt) {
 				exitSequence_main_region_watch_r1_StatePause();
 				enterSequence_main_region_watch_r1_StateStop_default();
-				main_region_watch_react(false);
 			} else {
 				if (sCInterface.rBt) {
 					exitSequence_main_region_watch_r1_StatePause();
 					enterSequence_main_region_watch_r1_StateResume_default();
-					main_region_watch_react(false);
 				} else {
 					did_transition = false;
 				}
 			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_watch_react(try_transition);
 		}
 		return did_transition;
 	}
@@ -829,19 +790,14 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 			if (sCInterface.rBt) {
 				exitSequence_main_region_watch_r1_StateStart();
 				enterSequence_main_region_watch_r1_StatePause_default();
-				main_region_watch_react(false);
 			} else {
 				if (sCInterface.lBt) {
 					exitSequence_main_region_watch_r1_StateStart();
 					enterSequence_main_region_watch_r1_StateStop_default();
-					main_region_watch_react(false);
 				} else {
 					did_transition = false;
 				}
 			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_watch_react(try_transition);
 		}
 		return did_transition;
 	}
@@ -853,11 +809,62 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 			if (sCInterface.lBt) {
 				exitSequence_main_region_watch_r1_StateResume();
 				enterSequence_main_region_watch_r1_StateStop_default();
-				main_region_watch_react(false);
 			} else {
 				if (sCInterface.rBt) {
 					exitSequence_main_region_watch_r1_StateResume();
 					enterSequence_main_region_watch_r1_StatePause_default();
+				} else {
+					did_transition = false;
+				}
+			}
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_watch_r1_StateStop_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.lBt) {
+				exitSequence_main_region_watch_r1_StateStop();
+				enterSequence_main_region_watch_r1_StateInitial_default();
+			} else {
+				did_transition = false;
+			}
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_watch_r1_StateInitial_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.lBt) {
+				exitSequence_main_region_watch_r1_StateInitial();
+				enterSequence_main_region_watch_r1_StateStart_default();
+			} else {
+				did_transition = false;
+			}
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_watch_record_StateRecord_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.mBt) {
+				exitSequence_main_region_watch_record_StateRecord();
+				sCInterface.raiseDoClearTitle();
+				
+				enterSequence_main_region_watch_record_StateIntial_default();
+				main_region_watch_react(false);
+			} else {
+				if (timeEvents[0]) {
+					exitSequence_main_region_watch_record_StateRecord();
+					sCInterface.raiseDoChangeButtonName();
+					
+					enterSequence_main_region_watch_record_StateIntial_default();
 					main_region_watch_react(false);
 				} else {
 					did_transition = false;
@@ -870,13 +877,13 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		return did_transition;
 	}
 	
-	private boolean main_region_watch_r1_StateStop_react(boolean try_transition) {
+	private boolean main_region_watch_record_StateIntial_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.lBt) {
-				exitSequence_main_region_watch_r1_StateStop();
-				enterSequence_main_region_watch_r1_StateInitial_default();
+			if (sCInterface.mBt) {
+				exitSequence_main_region_watch_record_StateIntial();
+				enterSequence_main_region_watch_record_StateRecord_default();
 				main_region_watch_react(false);
 			} else {
 				did_transition = false;
@@ -884,84 +891,6 @@ public class StopwatchStatemachine implements IStopwatchStatemachine {
 		}
 		if (did_transition==false) {
 			did_transition = main_region_watch_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_watch_r1_StateInitial_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.lBt) {
-				exitSequence_main_region_watch_r1_StateInitial();
-				enterSequence_main_region_watch_r1_StateStart_default();
-				main_region_watch_react(false);
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_watch_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_date_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		if (did_transition==false) {
-			did_transition = react();
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_date_date_hour_StateHour_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.mBt) {
-				exitSequence_main_region_date_date_hour_StateHour();
-				enterSequence_main_region_date_date_hour_StateDate_default();
-				main_region_date_react(false);
-			} else {
-				if (timeEvents[0]) {
-					exitSequence_main_region_date();
-					react_main_region_watch_r1_history();
-					react();
-				} else {
-					did_transition = false;
-				}
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_date_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_date_date_hour_StateDate_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.mBt) {
-				exitSequence_main_region_date_date_hour_StateDate();
-				enterSequence_main_region_date_date_hour_StateHour_default();
-				main_region_date_react(false);
-			} else {
-				if (timeEvents[1]) {
-					exitSequence_main_region_date();
-					react_main_region_watch_r1_history();
-					react();
-				} else {
-					did_transition = false;
-				}
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_date_react(try_transition);
 		}
 		return did_transition;
 	}
