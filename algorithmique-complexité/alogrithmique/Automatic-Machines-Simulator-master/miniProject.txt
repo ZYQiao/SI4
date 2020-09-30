@@ -1,0 +1,85 @@
+#Données :
+#• un mot de la forme XXX...XXX (Xn) de longueur n (n > 0). Résultat :
+#• le mot LLL...LLLMMM...MMMNNN...NNN (LiMjNk), avec i≤j≤k≤i+1 avec n=i+j+k.
+#Exemples :
+#• XXXXXX donneLLMMNN
+#• XXXXXXXX donneLLMMNNN
+
+NEW "Q1.1" 1
+START @0
+END @7 "VALIR"
+
+FROM @0
+'L 'X R @1
+'Y R @4
+
+FROM @1
+'L R
+'Y R
+'M 'Y R @2
+
+FROM @2
+'Z R
+'M R
+'N 'Z R @3
+
+FROM @3
+'Z L
+'N L
+'Y L
+'M L
+'L L
+'_ L
+'X R @0
+
+FROM @4
+'Y R
+'M 'Y R @5
+'Z R @5
+
+FROM @5
+'Z R
+'_ S @7
+'N 'Z R @6
+
+
+FROM @6
+'_ S @7
+
+NEW "Q1.3" 1
+START @1
+END @7 "VALIR"
+
+FROM @1
+'# R
+'_ R
+'a '_ R @2
+'$ R @3
+
+FROM @2
+'_ R
+'$ R @4
+'a R @1
+
+FROM @3
+'0 R
+'1 R
+'_ '0 L @5
+
+FROM @4
+'0 R
+'1 R
+'_ '1 L @5
+
+FROM @5
+'a L
+'_ L
+'0 L
+'1 L
+'# R @1
+'$ L @6
+
+FROM @6
+'_ L
+'a L @5
+'# S @7

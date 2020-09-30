@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/Person.cpp
+Person.h
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/Person.h
+iostream
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/iostream
+algorithm
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/algorithm
+
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/Person.h
+string
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/string
+vector
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/vector
+
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/main.cpp
+iostream
+-
+Person.cpp
+/Users/zhaoyuqiao/Desktop/SI4/C++/td2/Person/Person.cpp
+
