@@ -6,6 +6,8 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/Users/zhaoyuqiao/Desktop/SI4/FSM/fr.univcotedazur.polytech.si4.fsm.stopwatch.v1.zip"/>
+			<item value="/Users/zhaoyuqiao/Desktop/SI4/FSM/fr.univcotedazur.polytech.si4.fsm.stopwatch.v1"/>
 			<item value="/Users/zhaoyuqiao/Downloads/td01/fr.unice.polytech.si4.stopwatch.v1"/>
 			<item value="/Users/zhaoyuqiao/Downloads/td01"/>
 			<item value="/Users/zhaoyuqiao/Desktop/SI4/FSM/fr.univcotedazur.polytech.si4.fsm.stopwatch.v0"/>
