@@ -133,7 +133,7 @@ public class StopWatchGUI extends JFrame {
 	private static final long serialVersionUID = -8682173885223592966L;
 	
 	protected int millis, secs, mins, p_i = 0;
-	protected JButton leftButton, midButton, rightButton;
+	protected JButton leftButton, midButton, mid2Button, rightButton;
 	protected JPanel rootPanel;
 	protected JLabel timeValue;
 	protected JLabel[] titles;
@@ -233,6 +233,14 @@ public class StopWatchGUI extends JFrame {
 			}
 		});
 		
+		mid2Button = new JButton("showTime");
+		mid2Button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseM2Bt();
+			}
+		});
+		
 		rightButton = new JButton("pause");
 		rightButton.addActionListener(new ActionListener() {
 			@Override
@@ -241,6 +249,8 @@ public class StopWatchGUI extends JFrame {
 				theFSM.raiseRBt();
 			}
 		});
+		
+		
 
 		timeValue = new JLabel();
 		timeValue.setFont(new Font("Courier", Font.BOLD, 25));
@@ -252,6 +262,7 @@ public class StopWatchGUI extends JFrame {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(leftButton);
 		buttonPanel.add(midButton);
+		buttonPanel.add(mid2Button);
 		buttonPanel.add(rightButton);
 		rootPanel.add(buttonPanel);
 		buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -286,7 +297,7 @@ public class StopWatchGUI extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(rootPanel);
-		setSize(280, 220);
+		setSize(400, 220);
 		setResizable(false);
 		setTitle("stopwatch");
 		setVisible(true);

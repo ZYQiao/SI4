@@ -19,9 +19,7 @@ Person::Person(string n, Gender g):name(n),gender(g){
     parent = {};
     child = {};
 }
-void Person::breakUp() {
-    partner = nullptr;
-}
+
 string Person::getGender() {
     switch (gender) {
         case 0:
@@ -40,16 +38,35 @@ string Person::toString() {
     s.append(" ");
     return s;
 }
+
+bool Person::check() {
+    Person *p2 = this->getPartner();
+    if(p2 != nullptr) {
+        if (this == p2) return false;
+        if (is_element_in_vector(this->getChild(), *p2)) return false;
+        if (is_element_in_vector((*p2).getChild(), *this)) return false;
+        if (is_element_in_vector(this->getParent(), *p2)) return false;
+        if (is_element_in_vector((*p2).getParent(), *this)) return false;
+    }
+    for(Person c: this->getChild()) {
+        if (&c == this) return false;
+        if (&c == this->getPartner()) return false;
+        if (is_element_in_vector(this->getParent(), c)) return false;
+        if (is_element_in_vector(c.getChild(), *this)) return false;
+        if (c.getParent().size() >= 2) return false;
+    }
+    return true;
+}
 Person* Person::getPartner(){return partner;}
 vector<Person> Person::getChild(){return child;}
 vector<Person> Person::getParent(){return parent;}
 
 bool Partner(Person &p1,Person &p2) {
-    if(&p1 == &p2) return false;
-    if(is_element_in_vector(p1.getChild(),p2)) return false;
-    if(is_element_in_vector(p2.getChild(),p1)) return false;
-    if(is_element_in_vector(p1.getParent(),p2)) return false;
-    if(is_element_in_vector(p2.getParent(),p1)) return false;
+//    if(&p1 == &p2) return false;
+//    if(is_element_in_vector(p1.getChild(),p2)) return false;
+//    if(is_element_in_vector(p2.getChild(),p1)) return false;
+//    if(is_element_in_vector(p1.getParent(),p2)) return false;
+//    if(is_element_in_vector(p2.getParent(),p1)) return false;
     p1.setPartner(&p2);
     p2.setPartner(&p1);
     return true;
@@ -66,11 +83,11 @@ bool Divorce(Person &p1,Person &p2){
 
 
 bool setChild(Person &p1,Person &c) {
-    if(&c == &p1) return false;
-    if(&c == p1.getPartner()) return false;
-    if(is_element_in_vector(p1.getParent(),c)) return false;
-    if(is_element_in_vector(c.getChild(),p1)) return false;
-    if(c.getParent().size() >= 2) return false;
+//    if(&c == &p1) return false;
+//    if(&c == p1.getPartner()) return false;
+//    if(is_element_in_vector(p1.getParent(),c)) return false;
+//    if(is_element_in_vector(c.getChild(),p1)) return false;
+//    if(c.getParent().size() >= 2) return false;
     p1.setChild(c);
     c.setParent(p1);
     return true;
@@ -81,19 +98,24 @@ bool setChild(Person &p1,Person &c) {
 
 
 ostream& operator<<(ostream &os, Person &p){
-    string partner,children,parent;
-    if(p.getPartner() != nullptr){
-        partner = (*p.getPartner()).toString();
-    } else  partner = "no partner";
-    if(!p.getChild().empty()){
-        for(Person child : p.getChild())
-            children.append(child.toString());
-    } else children = "no child";
-    if(!p.getParent().empty()){
-        for(Person p : p.getParent())
-            parent.append(p.toString());
-    } else parent = "no parent";
-    os<<"name: "<<p.getName()<<"\ngender: "<<p.getGender()<<"\npartner: "<<partner<<"\nchildren: "<<children<<"\nparent: "<<parent<<endl;
+    if(p.check()) {
+        string partner, children, parent;
+        if (p.getPartner() != nullptr) {
+            partner = (*p.getPartner()).toString();
+        } else partner = "no partner";
+        if (!p.getChild().empty()) {
+            for (Person child : p.getChild())
+                children.append(child.toString());
+        } else children = "no child";
+        if (!p.getParent().empty()) {
+            for (Person p : p.getParent())
+                parent.append(p.toString());
+        } else parent = "no parent";
+        os << "name: " << p.getName() << "\ngender: " << p.getGender() << "\npartner: " << partner << "\nchildren: "
+           << children << "\nparent: " << parent << endl;
+    } else{
+        os << "error" <<endl;
+    }
     return os;
 }
 

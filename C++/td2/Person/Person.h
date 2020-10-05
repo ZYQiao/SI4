@@ -9,6 +9,7 @@
 using namespace std;
 
 class Person{
+
 public:
     enum Gender{Male,Female};
     Person(string n, Gender g);
@@ -22,6 +23,7 @@ public:
     vector<Person> getParent();
     string toString();
     void breakUp();
+    bool check();
 private:
     string name;
     Gender gender;

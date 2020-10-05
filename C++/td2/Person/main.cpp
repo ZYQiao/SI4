@@ -19,22 +19,23 @@ int main(){
     Partner(Charles,Amandine);
     setChild(Charles,Fred);
     setChild(Amandine,Fred);
-    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
-    Divorce(Charles,Amandine);
-    Partner(Charles,Sylvie);
-    setChild(Charles,Regis);
-    setChild(Sylvie,Regis);
-    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
-    Partner(Amandine,Jeff);
-    setChild(Amandine,Marie);
-    setChild(Amandine,Pedro);
-    setChild(Jeff,Marie);
-    setChild(Jeff,Pedro);
-    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
-    Partner(Marie,Regis);
-    setChild(Marie,Benoit);
-    setChild(Regis,Benoit);
-    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
+    cout<<Charles<<"\n"<<Amandine<<"\n"<<Sylvie<<"\n"<<Jeff<<"\n"<<Fred<<"\n"<<Regis<<"\n"<<Marie<<"\n"<<Pedro<<"\n"<<
+    Benoit<<endl;
+//    Divorce(Charles,Amandine);
+//    Partner(Charles,Sylvie);
+//    setChild(Charles,Regis);
+//    setChild(Sylvie,Regis);
+//    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
+//    Partner(Amandine,Jeff);
+//    setChild(Amandine,Marie);
+//    setChild(Amandine,Pedro);
+//    setChild(Jeff,Marie);
+//    setChild(Jeff,Pedro);
+//    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
+//    Partner(Marie,Regis);
+//    setChild(Marie,Benoit);
+//    setChild(Regis,Benoit);
+//    cout<<Charles<<Amandine<<Sylvie<<Jeff<<Fred<<Regis<<Marie<<Pedro<<Benoit<<endl;
 
     return 0;
 }

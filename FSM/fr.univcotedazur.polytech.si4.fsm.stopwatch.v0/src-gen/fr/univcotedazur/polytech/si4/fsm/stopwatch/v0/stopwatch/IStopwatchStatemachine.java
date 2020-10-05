@@ -18,6 +18,8 @@ public interface IStopwatchStatemachine extends ITimerCallback,IStatemachine {
 		
 		public void raiseMBt();
 		
+		public void raiseM2Bt();
+		
 		public boolean isRaisedDoInitial();
 		
 		public boolean isRaisedDoStart();
