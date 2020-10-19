@@ -6,13 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/Node.h
+/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/Tree.cpp
+Tree.h
+/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/Tree.h
+
+/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/Tree.h
+vector
+/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/vector
 iostream
 /Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/iostream
 
 /Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/main.cpp
 iostream
 -
-Node.h
-/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/Node.h
+Tree.cpp
+/Users/zhaoyuqiao/Desktop/SI4/C++/td3/Tree/Tree.cpp
 
