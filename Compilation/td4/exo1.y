@@ -1,18 +1,29 @@
 %{
-#include <ctype.h>
-int yylex(void)
+#include <stdio.h>
+void yyerror(const char* msg) {}
 %}
 
+%token T_NUM
 
+%left '+' '-'
+%left '*' '/'
 
 %%
 
-S   :   S 'a'         { printf("regle 1"); }
-    |   'x'           { printf("regle 2"); }
-    |   'y'           { printf("regle 3"); }
+S   :   S E '\n'        { printf("ans = %d\n", $2); }
+    |   /* empty */     { /* empty */ }
     ;
 
+E   :   E '+' E         { $$ = $1 + $3; }
+    |   E '-' E         { $$ = $1 - $3; }
+    |   E '*' E         { $$ = $1 * $3; }
+    |   E '/' E         { $$ = $1 / $3; }
+    |   T_NUM           { $$ = $1; }
+    |   '(' E ')'       { $$ = $2; }
+    ;
 
 %%
-yylex();
-yyerror();
+
+int main() {
+    return yyparse();
+}

@@ -3,8 +3,9 @@
 %}
 
 %%
-x|y[a]+    { return yytext; }
-.          { return 0; /* end when meet everything else */ }
+[0-9]+          { yylval = atoi(yytext); return T_NUM; }
+[-/+*()\n]      { return yytext[0]; }
+.               { return 0; /* end when meet everything else */ }
 %%
 
 int yywrap(void) { 
