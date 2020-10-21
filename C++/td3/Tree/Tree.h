@@ -9,56 +9,62 @@
 
 using namespace std;
 
-template <typename T>
+
 class Node{
 private:
-    Node<T> *left, *right;
-    T val;
+    Node *left, *right;
+    int val;
 public:
-//    Node(){
-//        val = NULL;
-//        left = nullptr;
-//        right = nullptr;
-//    }
-    Node(T v,Node *l = nullptr,Node *r = nullptr){
-        Node my_l = *l,my_r = *r;
-        left = &my_l;
-        right = &my_r;
+    Node(int v = -1,Node *l = nullptr,Node *r = nullptr){
+        left = l;
+        right = r;
         val = v;
     }
 
     void operator=(Node n){
-        Node my_l (*n.get_left()), my_r(*n.get_right());
         val = n.get_val();
-        left = &my_l;
-        right = &my_r;
+        if(n.have_left()){
+            Node my_l (n.get_left()->get_val());
+            left = &my_l;
+        } else{
+            left = nullptr;
+        }
+        if(n.have_right()){
+            Node my_r(*n.get_right());
+            right = &my_r;
+        } else{
+            right = nullptr;
+        }
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Node<T>& n);
+    friend ostream& operator<<(ostream& os, Node& n){
+        os<<"val: "<<n.get_val()<<" left: "<<n.get_left()<<" right: "<<n.get_right()<<endl;
+        return os;
+    }
     void set_val(int v){val = v;}
     void set_left(Node &node){left = &node;}
     void set_right(Node &node){right = &node;}
     void remove_all_children(){left = nullptr;right = nullptr;}
-    T get_val(){return val;}
+    int get_val(){return val;}
     bool have_left(){return left != nullptr;}
     bool have_right(){return right != nullptr;}
     Node* get_left(){return left;}
     Node* get_right(){return right;}
 };
 
-template <typename T>
+
 class Tree {
 private:
-    Node<T> root;
+    Node root;
     int depth;
 public:
-    Tree(){Node<T> node;}
-    Tree(Node<T> node,int d = 0){root = node;depth = d;}
-    Node<T> get_root(){return root;}
-    void set_root(Node<T> &node){root = node;}
-    void add(Node<T> &node);
-    Node<T>* get_leaf(Node<T> *root);
-    vector<Node<T>> parcours_infixe();
+    Tree(){Node node;}
+    Tree(Node node,int d = 0){root = node;depth = d;}
+    Node get_root(){return root;}
+    void set_root(Node &node){root = node;}
+    void add(Node &node);
+    Node* get_leaf(Node *root);
+    vector<Node> parcours_infixe();
     int get_depth(){return depth;}
 
 

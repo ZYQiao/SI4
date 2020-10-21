@@ -1,0 +1,79 @@
+graph: {
+	display_edge_labels:	yes
+	priority_phase:	yes
+	port_sharing:	no
+	crossing_weight:	median
+	splines:	yes
+	node: {
+		title:	"0"
+		label:	"state  0\n $accept -> . G $end"
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"1"
+		label:	"'x'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"2"
+		label:	"'y'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"3"
+		label:	"G"
+		color:	green
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"4"
+		label:	"S"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"1"
+		label:	"state  1\n S -> 'x' ."
+	}
+	node: {
+		title:	"2"
+		label:	"state  2\n S -> 'y' ."
+	}
+	node: {
+		title:	"3"
+		label:	"state  3\n $accept -> G . $end"
+	}
+	edge: {
+		sourcename:	"3"
+		targetname:	"5"
+		label:	"$end"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"4"
+		label:	"state  4\n G -> S .\n S -> S . 'a'"
+	}
+	edge: {
+		sourcename:	"4"
+		targetname:	"6"
+		label:	"'a'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"5"
+		label:	"state  5\n $accept -> G $end ."
+	}
+	node: {
+		title:	"6"
+		label:	"state  6\n S -> S 'a' ."
+	}
+
+
+}

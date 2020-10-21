@@ -7,7 +7,8 @@
 %}
 
 %%
-G:              S                       { printf("Analysis OK\n"); }
+G:              G S '\n'                { printf("Analysis OK\n"); }
+        |       /* empty */
         ;
 
 S:              S 'a'                   { printf("Règle S -> Sa (r1)\n"); }
@@ -23,6 +24,6 @@ void yyerror(const char* msg) { fprintf(stderr, "Error: %s\n", msg); }
 int yylex(void) {
     int c;
 
-    do  c =getchar(); while (isspace(c));
+    do  c =getchar(); while (c == ' ' || c == '\t');
     return c;
-}
+  }

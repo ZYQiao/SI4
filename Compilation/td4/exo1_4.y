@@ -4,10 +4,14 @@
 
   void yyerror(const char* msg);
   int yylex(void);
+  void prompt(void);
+
+  int lineno = 1;
 %}
 
 %%
-G:              S                       { printf("Analysis OK\n"); }
+G:              G S '\n'                { printf("Analysis OK\n"); prompt();}
+        |       /* empty */
         ;
 
 S:              S 'a'                   { printf("Règle S -> Sa (r1)\n"); }
@@ -16,13 +20,25 @@ S:              S 'a'                   { printf("Règle S -> Sa (r1)\n"); }
         ;
 
 %%
-int main() { return yyparse(); }
+int main() {
+    prompt();
+    return yyparse(); 
+}
 
 void yyerror(const char* msg) { fprintf(stderr, "Error: %s\n", msg); }
 
 int yylex(void) {
     int c;
 
-    do  c =getchar(); while (isspace(c));
+    do
+        c =getchar();
+    while (c == ' ' || c == '\t');
+
+    if (c == '\n') lineno +=1;
     return c;
+}
+
+void prompt(void) {
+  printf("[%d] ", lineno);
+  fflush(stdout);
 }

@@ -3,26 +3,26 @@
 //
 
 #include "Tree.h"
-template <typename T>
-void Tree<T>::add(Node<T> &node){
-    Node<T> *tmp = get_leaf(&root);
+
+void Tree::add(Node &node){
+    Node *tmp = get_leaf(&root);
     if(!tmp->have_left()) {
         tmp->set_left(node);
     }else if(!tmp->have_right()){
         tmp->set_right(node);
     }
 }
-template <typename T>
-Node<T>* Tree<T>::get_leaf(Node<T> *rt){
+
+Node* Tree::get_leaf(Node *rt){
     if(!rt->have_left() || !rt->have_right()) return rt;
     if(rt->have_left()) return rt = get_leaf(rt->get_left());
     if(rt->have_right()) return rt = get_leaf(rt->get_right());
 }
 
-template <typename T>
-vector<Node<T>> Tree<T>::parcours_infixe() {
-    vector<Node<T>> v,s;
-    Node<T> tmp = root;
+
+vector<Node> Tree::parcours_infixe() {
+    vector<Node> v,s;
+    Node tmp = root;
     v.push_back(tmp);
     while(!v.empty()) {
         while (tmp.have_left()) {
@@ -42,8 +42,4 @@ vector<Node<T>> Tree<T>::parcours_infixe() {
     }
 }
 
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Node<T>& n){
-    os<<"val: "<<n.val<<" left: "<<n.left->get_val()<<" right: "<<n.right->get_val()<<endl;
-    return os;
-}
+
