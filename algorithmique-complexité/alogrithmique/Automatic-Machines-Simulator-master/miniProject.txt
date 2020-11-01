@@ -5,81 +5,498 @@
 #• XXXXXX donneLLMMNN
 #• XXXXXXXX donneLLMMNNN
 
-NEW "Q1.1" 1
-START @0
-END @7 "VALIR"
+NEW "EXO1" 1
+START @BEGIN
+END @END "VALIR"
 
-FROM @0
-'L 'X R @1
-'Y R @4
+FROM @BEGIN
+'X 'L R @1
 
 FROM @1
-'L R
-'Y R
-'M 'Y R @2
+'X 'M R @2
+'_ L @13
 
 FROM @2
-'Z R
-'M R
-'N 'Z R @3
+'X 'N R @3
+'_ L @14
 
 FROM @3
-'Z L
-'N L
-'Y L
-'M L
-'L L
-'_ L
-'X R @0
+'_ S @END
+'X 'N R @4
 
 FROM @4
-'Y R
-'M 'Y R @5
-'Z R @5
+'_ S @END
+'X 'N L @5
 
 FROM @5
-'Z R
-'_ S @7
-'N 'Z R @6
-
+'N L
+'M R @6
 
 FROM @6
-'_ S @7
+'N 'M R @7
 
-NEW "Q1.3" 1
-START @1
-END @7 "VALIR"
+FROM @7
+'N R
+'_ S @END
+'X 'N L @8
+
+FROM @8
+'N L
+'M R @9
+
+FROM @9
+'N 'M L @10
+
+FROM @10
+'M L
+'L R @11
+
+FROM @11
+'M 'L R @12
+
+FROM @12
+'M R
+'N R
+'_ S @END
+'X 'N R @4
+
+FROM @13
+'L 'N L
+'_ S @END
+
+FROM @14
+'M 'N L
+'L 'M L
+'_ S @END
+#----------------------Q1.1----------------------------------
+NEW "Q1.1" 1
+START @BEGIN
+END @END "VALIR"
+
+FROM @BEGIN
+'X 'N R @1
 
 FROM @1
-'# R
-'_ R
-'a '_ R @2
-'$ R @3
+'_ S @END
+'X 'N L @2
 
 FROM @2
-'_ R
-'$ R @4
-'a R @1
+'N L
+'M R @3
+'_ R @3
 
 FROM @3
-'0 R
-'1 R
-'_ '0 L @5
+'N 'M R @4
 
 FROM @4
-'0 R
-'1 R
-'_ '1 L @5
+'N R
+'_ S @END
+'X 'N L @5
 
 FROM @5
-'a L
-'_ L
+'N L
+'M R @6
+
+FROM @6
+'N 'M L @7
+
+FROM @7
+'M L
+'L R @8
+'_ R @8
+
+FROM @8
+'M 'L R @9
+
+FROM @9
+'M R
+'N R
+'_ S @END
+'X 'N R @1
+
+#----------------------Q1.2----------------------------------
+NEW "Q1.2" 1
+START @BEGIN
+END @END "VALIR"
+
+FROM @BEGIN
+'X 'N R @1
+
+FROM @1
+'_ S @END
+'X 'N L @2
+
+FROM @2
+'N L
+'M R @3
+'_ R @3
+
+FROM @3
+'N 'M R @4
+
+FROM @4
+'N R
+'_ S @END
+'X 'N L @5
+
+FROM @5
+'N L
+'M R @6
+
+FROM @6
+'N 'M L
+'M L
+'L R @7
+'_ R @7
+
+FROM @7
+'M 'L R @8
+
+FROM @8
+'M R
+'N R
+'_ S @END
+'X 'N R @1
+
+#----------------------Q1.4----------------------------------
+NEW "Q1.4" 2
+START @START
+END @END "YES"
+
+FROM @START
+'X,'_ 'X,'N R,R @1
+'_,'_ L,L @3
+
+FROM @1
+'X,'_ 'X,'M R,R @2
+'_,'_ L,L @3
+
+FROM @2
+'X,'_ 'X,'L R,R @START
+'_,'_ L,L @3
+
+FROM @3
+'X,'M S,L @3
+'X,'L S,L @3
+'X,'N 'N,'N L,L @3
+'X,'_ S,R @4
+'_,'_ S,S @END
+
+FROM @4
+'X,'N S,R @4
+'X,'L S,R @4
+'X,'M 'M,'M L,R @4
+'X,'_ S,L @5
+'_,'_ S,S @END
+
+FROM @5
+'X,'N S,L @5
+'X,'M S,L @5
+'X,'L 'L,'L L,L @5
+'_,'M S,S @END
+
+#----------------------Q1.3----------------------------------
+NEW "Q1.3" 1
+START @START
+END @END "YES"
+
+FROM @START
+'X '# R @1
+'# R
+'N R
+'0 R
+'1 R
+'M R
+'_ L @14
+
+FROM @1
+'X '# R @2
+'_ L @8
+
+FROM @2
+'X '# R @3
+'_ L @9
+
+
+FROM @3
+'X R @4
+'M R
+'N R
+'0 R
+'1 R
+'# R
+'_ '1 L @7
+
+FROM @4
+'X R @5
+'_ L @11
+
+FROM @5
+'X R @6
+'_ L @12
+
+FROM @6
+'M R
+'N R
+'0 R
+'1 R
+'# R
+'X S @START
+'_ '0 L @7
+
+FROM @7
+'M L
+'N L
 '0 L
 '1 L
-'# R @1
-'$ L @6
+'# L
+'X L
+'_ R @START
 
-FROM @6
-'_ L
-'a L @5
-'# S @7
+FROM @8
+'# 'N R @6
+
+FROM @9
+'# 'N L @10
+
+FROM @10
+'# 'M R @6
+
+FROM @11
+'X 'N R @3
+
+FROM @12
+'X 'N L @13
+
+FROM @13
+'X 'M R @3
+
+FROM @14
+'1 L
+'0 L
+'N R @15
+'# R @15
+
+FROM @15
+'0 '$ L @16
+'1 '$ L @17
+
+FROM @16
+'1 L
+'0 L
+'M L
+'N L
+'$ L
+'# '0 R @18
+'_ R @LESS_3
+
+FROM @LESS_3
+'M R
+'N R
+'$ '_ S @END
+
+FROM @17
+'1 L
+'0 L
+'M L
+'N L
+'$ L
+'# '1 R @18
+
+FROM @18
+'1 R
+'0 R
+'M R
+'N R
+'$ R @19
+
+FROM @19
+'0 '$ L @16
+'1 '$ L @17
+'$ R
+'_ L @20
+
+FROM @20
+'$ '_ L
+'1 L
+'0 L
+'M L
+'N L
+'# '$ R @21
+
+FROM @21
+'1 R
+'0 R
+'M L @22
+'N L @22
+'_ L @22
+
+FROM @22
+'0 '2 L @23
+'1 '3 L @24
+'$ L @27
+
+FROM @23
+'0 L
+'1 L
+'$ L
+'# '0 R @26
+
+FROM @24
+'0 L
+'1 L
+'$ L
+'# '1 R @26
+
+FROM @26
+'0 R
+'1 R
+'$ R
+'2 L @22
+'3 L @22
+
+FROM @27
+'0 '1 L @28
+'1 '0 L @29
+'# R @42
+'_ R @42
+
+FROM @28
+'0 '1 L
+'1 '0 L @29
+
+FROM @29
+'1 L
+'0 L
+'# R @30
+'_ R @LESS_6
+
+FROM @LESS_6
+'0 '# S @29
+
+FROM @30
+'0 '# R
+'1 L @31
+'$ L @32
+
+FROM @31
+'# '1 R @33
+
+FROM @32
+'# '$ R @33
+
+FROM @33
+'1 R @34
+'0 R @34
+'3 R @34
+'2 R @34
+'$ R @34
+
+FROM @34
+'0 L @35
+'1 L @36
+'$ L @37
+'3 L @38
+'2 L @39
+'M L @40
+'N L @40
+'_ L @40
+
+FROM @35
+'1 '0 R @33
+'0 R @33
+
+FROM @36
+'0 '1 R @33
+'1 R @33
+
+FROM @37
+'1 '$ R @33
+'0 '$ R @33
+
+FROM @38
+'2 '3 R @33
+'$ '3 R @33
+'3 R @33
+
+FROM @39
+'3 '2 R @33
+'2 R @33
+
+FROM @40
+'2 'N L @41
+'3 'N L @41
+
+FROM @41
+'3 L
+'2 L
+'$ L @27
+
+FROM @42
+'2 R
+'3 R
+'$ '# R
+'N R
+'M 'N L @43
+'_ L @45
+
+FROM @43
+'N L
+'3 R @44
+'2 R @44
+
+FROM @44
+'N 'M L @45
+
+FROM @45
+'N L
+'2 '3 L @46
+'3 '2 L @47
+'# S @END
+
+FROM @46
+'2 '3 L
+'3 '2 L @47
+
+FROM @47
+'3 L
+'2 L
+'# R @48
+
+FROM @48
+'2 '# R
+'3 L @49
+'M L @50
+'N L @50
+
+FROM @49
+'# '3 R @51
+
+FROM @50
+'# 'M L @56
+
+FROM @51
+'2 R @52
+'3 R @52
+
+FROM @52
+'3 L @53
+'2 L @54
+'M L @55
+'N L @55
+
+FROM @53
+'3 R @51
+'2 '3 R @51
+
+FROM @54
+'2 R @51
+'3 '2 R @51
+
+FROM @55
+'2 'M L @45
+'3 'M L @45
+
+FROM @56
+'# 'L L
+'_ S @END
