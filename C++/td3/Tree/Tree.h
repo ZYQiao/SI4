@@ -21,21 +21,21 @@ public:
         val = v;
     }
 
-    void operator=(Node n){
-        val = n.get_val();
-        if(n.have_left()){
-            Node my_l (n.get_left()->get_val());
-            left = &my_l;
-        } else{
-            left = nullptr;
-        }
-        if(n.have_right()){
-            Node my_r(*n.get_right());
-            right = &my_r;
-        } else{
-            right = nullptr;
-        }
-    }
+//    void operator=(Node n){
+//        val = n.get_val();
+//        if(n.have_left()){
+//            Node my_l (n.get_left()->get_val());
+//            left = &my_l;
+//        } else{
+//            left = nullptr;
+//        }
+//        if(n.have_right()){
+//            Node my_r(*n.get_right());
+//            right = &my_r;
+//        } else{
+//            right = nullptr;
+//        }
+//    }
 
     friend ostream& operator<<(ostream& os, Node& n){
         os<<"val: "<<n.get_val()<<" left: "<<n.get_left()<<" right: "<<n.get_right()<<endl;

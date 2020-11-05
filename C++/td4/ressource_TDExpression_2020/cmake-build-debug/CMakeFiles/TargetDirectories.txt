@@ -1,0 +1,3 @@
+/Users/zhaoyuqiao/Desktop/SI4/C++/td4/ressource_TDExpression_2020/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/zhaoyuqiao/Desktop/SI4/C++/td4/ressource_TDExpression_2020/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/zhaoyuqiao/Desktop/SI4/C++/td4/ressource_TDExpression_2020/cmake-build-debug/CMakeFiles/ressource_TDExpression_2020.dir
