@@ -1,0 +1,3 @@
+/Users/zhaoyuqiao/Desktop/SI4/C++/td5/Menu/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/zhaoyuqiao/Desktop/SI4/C++/td5/Menu/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/zhaoyuqiao/Desktop/SI4/C++/td5/Menu/cmake-build-debug/CMakeFiles/Menu.dir

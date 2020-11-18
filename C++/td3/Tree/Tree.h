@@ -21,7 +21,7 @@ public:
         val = v;
     }
 
-//    void operator=(Node n){
+//    Node(Node &n){
 //        val = n.get_val();
 //        if(n.have_left()){
 //            Node my_l (n.get_left()->get_val());

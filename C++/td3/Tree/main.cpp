@@ -1,49 +1,32 @@
 #include <iostream>
-#include "Tree.cpp"
 
 using namespace std;
+class Point{
 
-int main() {
-    Node node1(1);
-    Node node2(2);
-    Node node3(3);
-    Node node4(4);
-    Node node5(5);
-    Node node6(6);
-    Node node7(7);
-    Node node8(8);
-    Node node9(9);
-    Node node10(10);
-    Node node11(11);
-
-    node1.set_left(node2);
-    node1.set_right(node3);
-    node2.set_left(node4);
-    node2.set_right(node5);
-    node5.set_left(node7);
-    node5.set_right(node8);
-    node3.set_right(node6);
-    node6.set_left(node9);
-
-    Tree tree(node1);
-//    tree.add(node2);
-//    tree.add(node3);
-//    tree.add(node4);
-//    tree.add(node5);
-//    tree.add(node6);
-//    tree.add(node7);
-//    tree.add(node8);
-//    tree.add(node9);
-//    tree.add(node10);
-//    tree.add(node11);
-
-    vector<Node> v = tree.parcours_infixe();
-    for(Node n: v) {
-        cout << n;
+public:
+    int x,y;
+    char* name;
+    Point(int x=0, int y=0, char* name= nullptr){
+        this->x = x;
+        this->y = y;
+        this->name = name;
     }
-    cout<<endl;
-
-
-
+    Point(Point &p){
+        x = p.x;
+        y = p.y;
+        name = new char[strlen(p.name)];
+        strcpy(name,p.name);
+    }
+};
+int main() {
+    Point p1(1,1,"string");
+    Point p2 = p1;
+    Point p3;
+    p3 = p1;
+    std::cout<<p1.name<<std::endl;
+    std::cout<<p2.name<<std::endl;
+    std::cout<<p3.name<<std::endl;
+//    std::cout<<sizeof(p1)<<sizeof(p2)<<sizeof(p3)<<std::endl;
+    std::cout << "Hello, World!" << std::endl;
     return 0;
 }
