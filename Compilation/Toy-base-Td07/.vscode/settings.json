@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "iterator": "c",
+        "fstream": "c",
+        "istream": "c",
+        "ostream": "c",
+        "sstream": "c",
+        "streambuf": "c"
+    }
+}
