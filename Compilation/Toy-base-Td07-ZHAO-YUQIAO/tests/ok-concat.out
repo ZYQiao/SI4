@@ -1,0 +1,6 @@
+s='Hello, world.'
+SUCCESS
+abcdefgh
+Concatenate two uninitialized: -><-
+s='..................................................'
+SUCCESS

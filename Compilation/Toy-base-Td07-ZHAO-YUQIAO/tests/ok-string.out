@@ -1,0 +1,15 @@
+abcd < xyz => true
+abcd <= xyz => true
+abcd > xyz => false
+abcd >= xyz => false
+abcd == xyz => false
+abcd != xyz => true
+----------------
+abcd < abcd => false
+abcd <= abcd => true
+abcd > abcd => false
+abcd >= abcd => true
+abcd == abcd => true
+abcd != abcd => false
+SUCCESS
+SUCESSS

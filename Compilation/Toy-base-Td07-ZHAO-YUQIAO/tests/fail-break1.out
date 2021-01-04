@@ -1,0 +1,3 @@
+fail-break1.toy:18: break used outside a loop
+fail-break1.toy:22: break used outside a loop
+*** 2 errors detected

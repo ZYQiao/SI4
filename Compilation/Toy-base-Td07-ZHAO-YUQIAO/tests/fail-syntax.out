@@ -1,0 +1,5 @@
+fail-syntax.toy:15: syntax error, unexpected TINT, expecting ';' or ','
+fail-syntax.toy:17: syntax error, unexpected ')'
+fail-syntax.toy:17: y is not declared
+fail-syntax.toy:18: w is not declared
+*** 4 errors detected

@@ -1,0 +1,8 @@
+fail-power.toy:15: operands of ** have incompatible types
+fail-power.toy:15: operands of ** must be numbers
+fail-power.toy:16: operands of ** have incompatible types
+fail-power.toy:16: operands of ** must be numbers
+fail-power.toy:17: operands of ** have incompatible types
+fail-power.toy:17: operands of ** must be numbers
+fail-power.toy:18: operands of assignment have incompatible types
+*** 7 errors detected

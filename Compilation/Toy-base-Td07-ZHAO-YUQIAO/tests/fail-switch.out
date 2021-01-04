@@ -1,0 +1,5 @@
+fail-switch.toy:27: syntax error, unexpected KCASE, expecting '}'
+fail-switch.toy:19: condition must be boolean
+fail-switch.toy:19: condition must be boolean
+fail-switch.toy:21: function foo is undefined
+*** 4 errors detected

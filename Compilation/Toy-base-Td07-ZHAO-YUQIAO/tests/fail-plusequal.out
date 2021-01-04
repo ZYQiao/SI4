@@ -1,0 +1,4 @@
+fail-plusequal.toy:16: operands of -= must be numbers
+fail-plusequal.toy:19: operands of += have incompatible types
+fail-plusequal.toy:19: operands of += must be numbers
+*** 3 errors detected

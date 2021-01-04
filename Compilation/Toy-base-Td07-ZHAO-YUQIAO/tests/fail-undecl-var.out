@@ -1,0 +1,4 @@
+fail-undecl-var.toy:14: z is not declared
+fail-undecl-var.toy:15: w is not declared
+fail-undecl-var.toy:15: operands of assignment have incompatible types
+*** 3 errors detected

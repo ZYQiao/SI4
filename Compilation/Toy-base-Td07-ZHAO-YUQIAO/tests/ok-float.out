@@ -1,0 +1,9 @@
+f1 = 1 f2 = 230 x = 230
+Adding two floats: 231
+Adding a float and an int: 4
+Adding an int and a float: 235
+Typing propagation #1: 11
+Typing propagation #2: 11
+Square root of 2: 1.41421
+Square root of 16: 4
+SUCCESS

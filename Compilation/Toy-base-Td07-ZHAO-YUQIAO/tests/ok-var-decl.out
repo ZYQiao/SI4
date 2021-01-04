@@ -1,0 +1,4 @@
+w=0x=5 y=6 z=-200
+foo(x+y+z) = -3927
+SUCCESS
+End of test

@@ -1,0 +1,6 @@
+fail-concat.toy:12: initializer type incompatible with 'i'
+fail-concat.toy:16: operands of + have incompatible types
+fail-concat.toy:16: operands of + must be numbers
+fail-concat.toy:17: operands of - must be numbers
+fail-concat.toy:18: type of expression is incompatible with function type
+*** 5 errors detected

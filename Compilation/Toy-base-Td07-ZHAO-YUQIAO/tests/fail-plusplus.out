@@ -1,0 +1,3 @@
+fail-plusplus.toy:18: syntax error, unexpected '='
+fail-plusplus.toy:20: syntax error, unexpected PP
+*** 2 errors detected

@@ -1,0 +1,6112 @@
+State 100 conflicts: 1 shift/reduce
+State 140 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: declarations
+
+    2 declarations: declarations declaration
+    3             | declaration
+
+    4 declaration: var_decl ';'
+    5            | func_decl
+
+    6 stmt: ';'
+    7     | expr ';'
+    8     | KPRINT '(' eparam_list ')' ';'
+    9     | '{' stmt_list '}'
+   10     | KWHILE '(' expr ')' stmt
+   11     | KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | KRETURN expr_opt ';'
+   13     | KBREAK ';'
+   14     | KTHROW ';'
+   15     | KIF '(' expr ')' stmt
+   16     | KIF '(' expr ')' stmt KELSE stmt
+   17     | KSWITCH '{' cond_list defcond '}'
+   18     | KTRY stmt catch_opt finally_opt
+   19     | var_decl ';'
+   20     | prototype ';'
+   21     | error ';'
+
+   22 cond_list: cond_list KCASE expr ':' stmt
+   23          | /* empty */
+
+   24 defcond: KDEFAULT ':' stmt
+   25        | /* empty */
+
+   26 catch_opt: KCATCH stmt
+   27          | /* empty */
+
+   28 finally_opt: KFINALLY stmt
+   29            | /* empty */
+
+   30 stmt_list: stmt_list stmt
+   31          | /* empty */
+
+   32 var_decl: var_decl ',' var init_var
+   33         | type var init_var
+
+   34 init_var: '=' expr
+   35         | /* empty */
+
+   36 type: TINT
+   37     | TFLOAT
+   38     | TBOOL
+   39     | TSTRING
+   40     | TVOID
+
+   41 func_decl: prototype ';'
+   42          | prototype '{' stmt_list '}'
+
+   43 prototype: type var '(' fparam_list ')'
+
+   44 fparam_list: fparam_list ',' type var
+   45            | type var
+   46            | /* empty */
+
+   47 eparam_list: eparam_list ',' expr
+   48            | expr
+   49            | /* empty */
+
+   50 expr: INTEGER
+   51     | FLOAT
+   52     | BOOLEAN
+   53     | STRING
+   54     | var
+   55     | call
+   56     | var '=' expr
+   57     | '-' expr
+   58     | '+' expr
+   59     | expr '+' expr
+   60     | expr '-' expr
+   61     | expr '*' expr
+   62     | expr '/' expr
+   63     | expr '%' expr
+   64     | expr POW expr
+   65     | expr '<' expr
+   66     | expr '>' expr
+   67     | expr EQ expr
+   68     | expr GE expr
+   69     | expr LE expr
+   70     | expr NE expr
+   71     | expr KOR expr
+   72     | expr KAND expr
+   73     | KNOT expr
+   74     | '(' expr ')'
+   75     | expr '?' expr ':' expr
+   76     | PP var
+   77     | MM var
+   78     | var PP
+   79     | var MM
+   80     | expr PE expr
+   81     | expr ME expr
+   82     | expr MTE expr
+   83     | expr DE expr
+
+   84 for1: var_decl
+   85     | expr
+   86     | /* empty */
+
+   87 for2: expr_opt
+
+   88 for3: expr_opt
+
+   89 expr_opt: expr
+   90         | /* empty */
+
+   91 var: IDENTIFIER
+
+   92 call: var '(' eparam_list ')'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'%' (37) 63
+'(' (40) 8 10 11 15 16 43 74 92
+')' (41) 8 10 11 15 16 43 74 92
+'*' (42) 61
+'+' (43) 58 59
+',' (44) 32 44 47
+'-' (45) 57 60
+'/' (47) 62
+':' (58) 22 24 75
+';' (59) 4 6 7 8 11 12 13 14 19 20 21 41
+'<' (60) 65
+'=' (61) 34 56
+'>' (62) 66
+'?' (63) 75
+'{' (123) 9 17 42
+'}' (125) 9 17 42
+error (256) 21
+INTEGER (258) 50
+BOOLEAN (259) 52
+FLOAT (260) 51
+STRING (261) 53
+IDENTIFIER (262) 91
+KWHILE (263) 10
+KIF (264) 15 16
+KPRINT (265) 8
+KRETURN (266) 12
+KBREAK (267) 13
+KFOR (268) 11
+KSWITCH (269) 17
+KCASE (270) 22
+KDEFAULT (271) 24
+KTRY (272) 18
+KCATCH (273) 26
+KFINALLY (274) 28
+KTHROW (275) 14
+TINT (276) 36
+TFLOAT (277) 37
+TBOOL (278) 38
+TSTRING (279) 39
+TVOID (280) 40
+IFX (281)
+KELSE (282) 16
+DE (283) 83
+MTE (284) 82
+ME (285) 81
+PE (286) 80
+KOR (287) 71
+KAND (288) 72
+LE (289) 69
+GE (290) 68
+NE (291) 70
+EQ (292) 67
+UMINUS (293)
+KNOT (294) 73
+MM (295) 77 79
+PP (296) 76 78
+POW (297) 64
+
+
+Nonterminals, with rules where they appear
+
+$accept (59)
+    on left: 0
+program (60)
+    on left: 1, on right: 0
+declarations (61)
+    on left: 2 3, on right: 1 2
+declaration (62)
+    on left: 4 5, on right: 2 3
+stmt (63)
+    on left: 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21,
+    on right: 10 11 15 16 18 22 24 26 28 30
+cond_list (64)
+    on left: 22 23, on right: 17 22
+defcond (65)
+    on left: 24 25, on right: 17
+catch_opt (66)
+    on left: 26 27, on right: 18
+finally_opt (67)
+    on left: 28 29, on right: 18
+stmt_list (68)
+    on left: 30 31, on right: 9 30 42
+var_decl (69)
+    on left: 32 33, on right: 4 19 32 84
+init_var (70)
+    on left: 34 35, on right: 32 33
+type (71)
+    on left: 36 37 38 39 40, on right: 33 43 44 45
+func_decl (72)
+    on left: 41 42, on right: 5
+prototype (73)
+    on left: 43, on right: 20 41 42
+fparam_list (74)
+    on left: 44 45 46, on right: 43 44
+eparam_list (75)
+    on left: 47 48 49, on right: 8 47 92
+expr (76)
+    on left: 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
+    68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83,
+    on right: 7 10 15 16 22 34 47 48 56 57 58 59 60 61 62 63 64 65
+    66 67 68 69 70 71 72 73 74 75 80 81 82 83 85 89
+for1 (77)
+    on left: 84 85 86, on right: 11
+for2 (78)
+    on left: 87, on right: 11
+for3 (79)
+    on left: 88, on right: 11
+expr_opt (80)
+    on left: 89 90, on right: 12 87 88
+var (81)
+    on left: 91, on right: 32 33 43 44 45 54 56 76 77 78 79 92
+call (82)
+    on left: 92, on right: 55
+
+
+state 0
+
+    0 $accept: . program $end
+    1 program: . declarations
+    2 declarations: . declarations declaration
+    3             | . declaration
+    4 declaration: . var_decl ';'
+    5            | . func_decl
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   41 func_decl: . prototype ';'
+   42          | . prototype '{' stmt_list '}'
+   43 prototype: . type var '(' fparam_list ')'
+
+    TINT     shift, and go to state 1
+    TFLOAT   shift, and go to state 2
+    TBOOL    shift, and go to state 3
+    TSTRING  shift, and go to state 4
+    TVOID    shift, and go to state 5
+
+    program       go to state 6
+    declarations  go to state 7
+    declaration   go to state 8
+    var_decl      go to state 9
+    type          go to state 10
+    func_decl     go to state 11
+    prototype     go to state 12
+
+
+state 1
+
+   36 type: TINT .
+
+    $default  reduce using rule 36 (type)
+
+
+state 2
+
+   37 type: TFLOAT .
+
+    $default  reduce using rule 37 (type)
+
+
+state 3
+
+   38 type: TBOOL .
+
+    $default  reduce using rule 38 (type)
+
+
+state 4
+
+   39 type: TSTRING .
+
+    $default  reduce using rule 39 (type)
+
+
+state 5
+
+   40 type: TVOID .
+
+    $default  reduce using rule 40 (type)
+
+
+state 6
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 13
+
+
+state 7
+
+    1 program: declarations .  [$end]
+    2 declarations: declarations . declaration
+    4 declaration: . var_decl ';'
+    5            | . func_decl
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   41 func_decl: . prototype ';'
+   42          | . prototype '{' stmt_list '}'
+   43 prototype: . type var '(' fparam_list ')'
+
+    TINT     shift, and go to state 1
+    TFLOAT   shift, and go to state 2
+    TBOOL    shift, and go to state 3
+    TSTRING  shift, and go to state 4
+    TVOID    shift, and go to state 5
+
+    $default  reduce using rule 1 (program)
+
+    declaration  go to state 14
+    var_decl     go to state 9
+    type         go to state 10
+    func_decl    go to state 11
+    prototype    go to state 12
+
+
+state 8
+
+    3 declarations: declaration .
+
+    $default  reduce using rule 3 (declarations)
+
+
+state 9
+
+    4 declaration: var_decl . ';'
+   32 var_decl: var_decl . ',' var init_var
+
+    ';'  shift, and go to state 15
+    ','  shift, and go to state 16
+
+
+state 10
+
+   33 var_decl: type . var init_var
+   43 prototype: type . var '(' fparam_list ')'
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 18
+
+
+state 11
+
+    5 declaration: func_decl .
+
+    $default  reduce using rule 5 (declaration)
+
+
+state 12
+
+   41 func_decl: prototype . ';'
+   42          | prototype . '{' stmt_list '}'
+
+    ';'  shift, and go to state 19
+    '{'  shift, and go to state 20
+
+
+state 13
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 14
+
+    2 declarations: declarations declaration .
+
+    $default  reduce using rule 2 (declarations)
+
+
+state 15
+
+    4 declaration: var_decl ';' .
+
+    $default  reduce using rule 4 (declaration)
+
+
+state 16
+
+   32 var_decl: var_decl ',' . var init_var
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 21
+
+
+state 17
+
+   91 var: IDENTIFIER .
+
+    $default  reduce using rule 91 (var)
+
+
+state 18
+
+   33 var_decl: type var . init_var
+   34 init_var: . '=' expr
+   35         | .  [';', ',']
+   43 prototype: type var . '(' fparam_list ')'
+
+    '='  shift, and go to state 22
+    '('  shift, and go to state 23
+
+    $default  reduce using rule 35 (init_var)
+
+    init_var  go to state 24
+
+
+state 19
+
+   41 func_decl: prototype ';' .
+
+    $default  reduce using rule 41 (func_decl)
+
+
+state 20
+
+   30 stmt_list: . stmt_list stmt
+   31          | .
+   42 func_decl: prototype '{' . stmt_list '}'
+
+    $default  reduce using rule 31 (stmt_list)
+
+    stmt_list  go to state 25
+
+
+state 21
+
+   32 var_decl: var_decl ',' var . init_var
+   34 init_var: . '=' expr
+   35         | .  [';', ',']
+
+    '='  shift, and go to state 22
+
+    $default  reduce using rule 35 (init_var)
+
+    init_var  go to state 26
+
+
+state 22
+
+   34 init_var: '=' . expr
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 37
+    var   go to state 38
+    call  go to state 39
+
+
+state 23
+
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: type var '(' . fparam_list ')'
+   44 fparam_list: . fparam_list ',' type var
+   45            | . type var
+   46            | .  [')', ',']
+
+    TINT     shift, and go to state 1
+    TFLOAT   shift, and go to state 2
+    TBOOL    shift, and go to state 3
+    TSTRING  shift, and go to state 4
+    TVOID    shift, and go to state 5
+
+    $default  reduce using rule 46 (fparam_list)
+
+    type         go to state 40
+    fparam_list  go to state 41
+
+
+state 24
+
+   33 var_decl: type var init_var .
+
+    $default  reduce using rule 33 (var_decl)
+
+
+state 25
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   30 stmt_list: stmt_list . stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   42 func_decl: prototype '{' stmt_list . '}'
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+    '}'         shift, and go to state 54
+
+    stmt       go to state 55
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 26
+
+   32 var_decl: var_decl ',' var init_var .
+
+    $default  reduce using rule 32 (var_decl)
+
+
+state 27
+
+   50 expr: INTEGER .
+
+    $default  reduce using rule 50 (expr)
+
+
+state 28
+
+   52 expr: BOOLEAN .
+
+    $default  reduce using rule 52 (expr)
+
+
+state 29
+
+   51 expr: FLOAT .
+
+    $default  reduce using rule 51 (expr)
+
+
+state 30
+
+   53 expr: STRING .
+
+    $default  reduce using rule 53 (expr)
+
+
+state 31
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   58     | '+' . expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 59
+    var   go to state 38
+    call  go to state 39
+
+
+state 32
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   57     | '-' . expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 60
+    var   go to state 38
+    call  go to state 39
+
+
+state 33
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   73     | KNOT . expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 61
+    var   go to state 38
+    call  go to state 39
+
+
+state 34
+
+   77 expr: MM . var
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 62
+
+
+state 35
+
+   76 expr: PP . var
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 63
+
+
+state 36
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   74     | '(' . expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 64
+    var   go to state 38
+    call  go to state 39
+
+
+state 37
+
+   34 init_var: '=' expr .  [';', ',']
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 34 (init_var)
+
+
+state 38
+
+   54 expr: var .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', POW, ';', ')', ',']
+   56     | var . '=' expr
+   78     | var . PP
+   79     | var . MM
+   92 call: var . '(' eparam_list ')'
+
+    '='  shift, and go to state 84
+    MM   shift, and go to state 85
+    PP   shift, and go to state 86
+    '('  shift, and go to state 87
+
+    $default  reduce using rule 54 (expr)
+
+
+state 39
+
+   55 expr: call .
+
+    $default  reduce using rule 55 (expr)
+
+
+state 40
+
+   45 fparam_list: type . var
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 88
+
+
+state 41
+
+   43 prototype: type var '(' fparam_list . ')'
+   44 fparam_list: fparam_list . ',' type var
+
+    ')'  shift, and go to state 89
+    ','  shift, and go to state 90
+
+
+state 42
+
+   21 stmt: error . ';'
+
+    ';'  shift, and go to state 91
+
+
+state 43
+
+   10 stmt: KWHILE . '(' expr ')' stmt
+
+    '('  shift, and go to state 92
+
+
+state 44
+
+   15 stmt: KIF . '(' expr ')' stmt
+   16     | KIF . '(' expr ')' stmt KELSE stmt
+
+    '('  shift, and go to state 93
+
+
+state 45
+
+    8 stmt: KPRINT . '(' eparam_list ')' ';'
+
+    '('  shift, and go to state 94
+
+
+state 46
+
+   12 stmt: KRETURN . expr_opt ';'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   89 expr_opt: . expr
+   90         | .  [';']
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    $default  reduce using rule 90 (expr_opt)
+
+    expr      go to state 95
+    expr_opt  go to state 96
+    var       go to state 38
+    call      go to state 39
+
+
+state 47
+
+   13 stmt: KBREAK . ';'
+
+    ';'  shift, and go to state 97
+
+
+state 48
+
+   11 stmt: KFOR . '(' for1 ';' for2 ';' for3 ')' stmt
+
+    '('  shift, and go to state 98
+
+
+state 49
+
+   17 stmt: KSWITCH . '{' cond_list defcond '}'
+
+    '{'  shift, and go to state 99
+
+
+state 50
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   18     | KTRY . stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 100
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 51
+
+   14 stmt: KTHROW . ';'
+
+    ';'  shift, and go to state 101
+
+
+state 52
+
+    6 stmt: ';' .
+
+    $default  reduce using rule 6 (stmt)
+
+
+state 53
+
+    9 stmt: '{' . stmt_list '}'
+   30 stmt_list: . stmt_list stmt
+   31          | .
+
+    $default  reduce using rule 31 (stmt_list)
+
+    stmt_list  go to state 102
+
+
+state 54
+
+   42 func_decl: prototype '{' stmt_list '}' .
+
+    $default  reduce using rule 42 (func_decl)
+
+
+state 55
+
+   30 stmt_list: stmt_list stmt .
+
+    $default  reduce using rule 30 (stmt_list)
+
+
+state 56
+
+   19 stmt: var_decl . ';'
+   32 var_decl: var_decl . ',' var init_var
+
+    ';'  shift, and go to state 103
+    ','  shift, and go to state 16
+
+
+state 57
+
+   20 stmt: prototype . ';'
+
+    ';'  shift, and go to state 104
+
+
+state 58
+
+    7 stmt: expr . ';'
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+    ';'   shift, and go to state 105
+
+
+state 59
+
+   58 expr: '+' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   59     | expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 58 (expr)
+
+    Conflict between rule 58 and token DE resolved as reduce (DE < UMINUS).
+    Conflict between rule 58 and token MTE resolved as reduce (MTE < UMINUS).
+    Conflict between rule 58 and token ME resolved as reduce (ME < UMINUS).
+    Conflict between rule 58 and token PE resolved as reduce (PE < UMINUS).
+    Conflict between rule 58 and token '?' resolved as reduce ('?' < UMINUS).
+    Conflict between rule 58 and token KOR resolved as reduce (KOR < UMINUS).
+    Conflict between rule 58 and token KAND resolved as reduce (KAND < UMINUS).
+    Conflict between rule 58 and token '>' resolved as reduce ('>' < UMINUS).
+    Conflict between rule 58 and token '<' resolved as reduce ('<' < UMINUS).
+    Conflict between rule 58 and token LE resolved as reduce (LE < UMINUS).
+    Conflict between rule 58 and token GE resolved as reduce (GE < UMINUS).
+    Conflict between rule 58 and token NE resolved as reduce (NE < UMINUS).
+    Conflict between rule 58 and token EQ resolved as reduce (EQ < UMINUS).
+    Conflict between rule 58 and token '+' resolved as reduce ('+' < UMINUS).
+    Conflict between rule 58 and token '-' resolved as reduce ('-' < UMINUS).
+    Conflict between rule 58 and token '*' resolved as reduce ('*' < UMINUS).
+    Conflict between rule 58 and token '/' resolved as reduce ('/' < UMINUS).
+    Conflict between rule 58 and token '%' resolved as reduce ('%' < UMINUS).
+    Conflict between rule 58 and token POW resolved as shift (UMINUS < POW).
+
+
+state 60
+
+   57 expr: '-' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   59     | expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 57 (expr)
+
+    Conflict between rule 57 and token DE resolved as reduce (DE < UMINUS).
+    Conflict between rule 57 and token MTE resolved as reduce (MTE < UMINUS).
+    Conflict between rule 57 and token ME resolved as reduce (ME < UMINUS).
+    Conflict between rule 57 and token PE resolved as reduce (PE < UMINUS).
+    Conflict between rule 57 and token '?' resolved as reduce ('?' < UMINUS).
+    Conflict between rule 57 and token KOR resolved as reduce (KOR < UMINUS).
+    Conflict between rule 57 and token KAND resolved as reduce (KAND < UMINUS).
+    Conflict between rule 57 and token '>' resolved as reduce ('>' < UMINUS).
+    Conflict between rule 57 and token '<' resolved as reduce ('<' < UMINUS).
+    Conflict between rule 57 and token LE resolved as reduce (LE < UMINUS).
+    Conflict between rule 57 and token GE resolved as reduce (GE < UMINUS).
+    Conflict between rule 57 and token NE resolved as reduce (NE < UMINUS).
+    Conflict between rule 57 and token EQ resolved as reduce (EQ < UMINUS).
+    Conflict between rule 57 and token '+' resolved as reduce ('+' < UMINUS).
+    Conflict between rule 57 and token '-' resolved as reduce ('-' < UMINUS).
+    Conflict between rule 57 and token '*' resolved as reduce ('*' < UMINUS).
+    Conflict between rule 57 and token '/' resolved as reduce ('/' < UMINUS).
+    Conflict between rule 57 and token '%' resolved as reduce ('%' < UMINUS).
+    Conflict between rule 57 and token POW resolved as shift (UMINUS < POW).
+
+
+state 61
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   73     | KNOT expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 73 (expr)
+
+    Conflict between rule 73 and token DE resolved as reduce (DE < KNOT).
+    Conflict between rule 73 and token MTE resolved as reduce (MTE < KNOT).
+    Conflict between rule 73 and token ME resolved as reduce (ME < KNOT).
+    Conflict between rule 73 and token PE resolved as reduce (PE < KNOT).
+    Conflict between rule 73 and token '?' resolved as reduce ('?' < KNOT).
+    Conflict between rule 73 and token KOR resolved as reduce (KOR < KNOT).
+    Conflict between rule 73 and token KAND resolved as reduce (KAND < KNOT).
+    Conflict between rule 73 and token '>' resolved as reduce ('>' < KNOT).
+    Conflict between rule 73 and token '<' resolved as reduce ('<' < KNOT).
+    Conflict between rule 73 and token LE resolved as reduce (LE < KNOT).
+    Conflict between rule 73 and token GE resolved as reduce (GE < KNOT).
+    Conflict between rule 73 and token NE resolved as reduce (NE < KNOT).
+    Conflict between rule 73 and token EQ resolved as reduce (EQ < KNOT).
+    Conflict between rule 73 and token '+' resolved as reduce ('+' < KNOT).
+    Conflict between rule 73 and token '-' resolved as reduce ('-' < KNOT).
+    Conflict between rule 73 and token '*' resolved as reduce ('*' < KNOT).
+    Conflict between rule 73 and token '/' resolved as reduce ('/' < KNOT).
+    Conflict between rule 73 and token '%' resolved as reduce ('%' < KNOT).
+    Conflict between rule 73 and token POW resolved as shift (KNOT < POW).
+
+
+state 62
+
+   77 expr: MM var .
+
+    $default  reduce using rule 77 (expr)
+
+
+state 63
+
+   76 expr: PP var .
+
+    $default  reduce using rule 76 (expr)
+
+
+state 64
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   74     | '(' expr . ')'
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+    ')'   shift, and go to state 106
+
+
+state 65
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   83     | expr DE . expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 107
+    var   go to state 38
+    call  go to state 39
+
+
+state 66
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   82     | expr MTE . expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 108
+    var   go to state 38
+    call  go to state 39
+
+
+state 67
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   81     | expr ME . expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 109
+    var   go to state 38
+    call  go to state 39
+
+
+state 68
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   80     | expr PE . expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 110
+    var   go to state 38
+    call  go to state 39
+
+
+state 69
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   75     | expr '?' . expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 111
+    var   go to state 38
+    call  go to state 39
+
+
+state 70
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   71     | expr KOR . expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 112
+    var   go to state 38
+    call  go to state 39
+
+
+state 71
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   72     | expr KAND . expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 113
+    var   go to state 38
+    call  go to state 39
+
+
+state 72
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   66     | expr '>' . expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 114
+    var   go to state 38
+    call  go to state 39
+
+
+state 73
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   65     | expr '<' . expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 115
+    var   go to state 38
+    call  go to state 39
+
+
+state 74
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   69     | expr LE . expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 116
+    var   go to state 38
+    call  go to state 39
+
+
+state 75
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   68     | expr GE . expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 117
+    var   go to state 38
+    call  go to state 39
+
+
+state 76
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   70     | expr NE . expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 118
+    var   go to state 38
+    call  go to state 39
+
+
+state 77
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   67     | expr EQ . expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 119
+    var   go to state 38
+    call  go to state 39
+
+
+state 78
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   59     | expr '+' . expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 120
+    var   go to state 38
+    call  go to state 39
+
+
+state 79
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   60     | expr '-' . expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 121
+    var   go to state 38
+    call  go to state 39
+
+
+state 80
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   61     | expr '*' . expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 122
+    var   go to state 38
+    call  go to state 39
+
+
+state 81
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   62     | expr '/' . expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 123
+    var   go to state 38
+    call  go to state 39
+
+
+state 82
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   63     | expr '%' . expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 124
+    var   go to state 38
+    call  go to state 39
+
+
+state 83
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   64     | expr POW . expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 125
+    var   go to state 38
+    call  go to state 39
+
+
+state 84
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   56     | var '=' . expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 126
+    var   go to state 38
+    call  go to state 39
+
+
+state 85
+
+   79 expr: var MM .
+
+    $default  reduce using rule 79 (expr)
+
+
+state 86
+
+   78 expr: var PP .
+
+    $default  reduce using rule 78 (expr)
+
+
+state 87
+
+   47 eparam_list: . eparam_list ',' expr
+   48            | . expr
+   49            | .  [')', ',']
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+   92     | var '(' . eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    $default  reduce using rule 49 (eparam_list)
+
+    eparam_list  go to state 127
+    expr         go to state 128
+    var          go to state 38
+    call         go to state 39
+
+
+state 88
+
+   45 fparam_list: type var .
+
+    $default  reduce using rule 45 (fparam_list)
+
+
+state 89
+
+   43 prototype: type var '(' fparam_list ')' .
+
+    $default  reduce using rule 43 (prototype)
+
+
+state 90
+
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   44 fparam_list: fparam_list ',' . type var
+
+    TINT     shift, and go to state 1
+    TFLOAT   shift, and go to state 2
+    TBOOL    shift, and go to state 3
+    TSTRING  shift, and go to state 4
+    TVOID    shift, and go to state 5
+
+    type  go to state 129
+
+
+state 91
+
+   21 stmt: error ';' .
+
+    $default  reduce using rule 21 (stmt)
+
+
+state 92
+
+   10 stmt: KWHILE '(' . expr ')' stmt
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 130
+    var   go to state 38
+    call  go to state 39
+
+
+state 93
+
+   15 stmt: KIF '(' . expr ')' stmt
+   16     | KIF '(' . expr ')' stmt KELSE stmt
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 131
+    var   go to state 38
+    call  go to state 39
+
+
+state 94
+
+    8 stmt: KPRINT '(' . eparam_list ')' ';'
+   47 eparam_list: . eparam_list ',' expr
+   48            | . expr
+   49            | .  [')', ',']
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    $default  reduce using rule 49 (eparam_list)
+
+    eparam_list  go to state 132
+    expr         go to state 128
+    var          go to state 38
+    call         go to state 39
+
+
+state 95
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+   89 expr_opt: expr .  [';', ')']
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 89 (expr_opt)
+
+
+state 96
+
+   12 stmt: KRETURN expr_opt . ';'
+
+    ';'  shift, and go to state 133
+
+
+state 97
+
+   13 stmt: KBREAK ';' .
+
+    $default  reduce using rule 13 (stmt)
+
+
+state 98
+
+   11 stmt: KFOR '(' . for1 ';' for2 ';' for3 ')' stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   84 for1: . var_decl
+   85     | . expr
+   86     | .  [';']
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    $default  reduce using rule 86 (for1)
+
+    var_decl  go to state 134
+    type      go to state 135
+    expr      go to state 136
+    for1      go to state 137
+    var       go to state 38
+    call      go to state 39
+
+
+state 99
+
+   17 stmt: KSWITCH '{' . cond_list defcond '}'
+   22 cond_list: . cond_list KCASE expr ':' stmt
+   23          | .
+
+    $default  reduce using rule 23 (cond_list)
+
+    cond_list  go to state 138
+
+
+state 100
+
+   18 stmt: KTRY stmt . catch_opt finally_opt
+   26 catch_opt: . KCATCH stmt
+   27          | .  [error, INTEGER, BOOLEAN, FLOAT, STRING, IDENTIFIER, KWHILE, KIF, KPRINT, KRETURN, KBREAK, KFOR, KSWITCH, KCASE, KDEFAULT, KTRY, KCATCH, KFINALLY, KTHROW, TINT, TFLOAT, TBOOL, TSTRING, TVOID, KELSE, '+', '-', KNOT, MM, PP, ';', '(', '{', '}']
+
+    KCATCH  shift, and go to state 139
+
+    KCATCH    [reduce using rule 27 (catch_opt)]
+    $default  reduce using rule 27 (catch_opt)
+
+    catch_opt  go to state 140
+
+
+state 101
+
+   14 stmt: KTHROW ';' .
+
+    $default  reduce using rule 14 (stmt)
+
+
+state 102
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+    9     | '{' stmt_list . '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   30 stmt_list: stmt_list . stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+    '}'         shift, and go to state 141
+
+    stmt       go to state 55
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 103
+
+   19 stmt: var_decl ';' .
+
+    $default  reduce using rule 19 (stmt)
+
+
+state 104
+
+   20 stmt: prototype ';' .
+
+    $default  reduce using rule 20 (stmt)
+
+
+state 105
+
+    7 stmt: expr ';' .
+
+    $default  reduce using rule 7 (stmt)
+
+
+state 106
+
+   74 expr: '(' expr ')' .
+
+    $default  reduce using rule 74 (expr)
+
+
+state 107
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr  [':', ';', ')', ',']
+   83     | expr DE expr .  [':', ';', ')', ',']
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 83 (expr)
+
+    Conflict between rule 83 and token DE resolved as shift (%right DE).
+    Conflict between rule 83 and token MTE resolved as shift (%right MTE).
+    Conflict between rule 83 and token ME resolved as shift (%right ME).
+    Conflict between rule 83 and token PE resolved as shift (%right PE).
+    Conflict between rule 83 and token '?' resolved as shift (DE < '?').
+    Conflict between rule 83 and token KOR resolved as shift (DE < KOR).
+    Conflict between rule 83 and token KAND resolved as shift (DE < KAND).
+    Conflict between rule 83 and token '>' resolved as shift (DE < '>').
+    Conflict between rule 83 and token '<' resolved as shift (DE < '<').
+    Conflict between rule 83 and token LE resolved as shift (DE < LE).
+    Conflict between rule 83 and token GE resolved as shift (DE < GE).
+    Conflict between rule 83 and token NE resolved as shift (DE < NE).
+    Conflict between rule 83 and token EQ resolved as shift (DE < EQ).
+    Conflict between rule 83 and token '+' resolved as shift (DE < '+').
+    Conflict between rule 83 and token '-' resolved as shift (DE < '-').
+    Conflict between rule 83 and token '*' resolved as shift (DE < '*').
+    Conflict between rule 83 and token '/' resolved as shift (DE < '/').
+    Conflict between rule 83 and token '%' resolved as shift (DE < '%').
+    Conflict between rule 83 and token POW resolved as shift (DE < POW).
+
+
+state 108
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr  [':', ';', ')', ',']
+   82     | expr MTE expr .  [':', ';', ')', ',']
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 82 (expr)
+
+    Conflict between rule 82 and token DE resolved as shift (%right DE).
+    Conflict between rule 82 and token MTE resolved as shift (%right MTE).
+    Conflict between rule 82 and token ME resolved as shift (%right ME).
+    Conflict between rule 82 and token PE resolved as shift (%right PE).
+    Conflict between rule 82 and token '?' resolved as shift (MTE < '?').
+    Conflict between rule 82 and token KOR resolved as shift (MTE < KOR).
+    Conflict between rule 82 and token KAND resolved as shift (MTE < KAND).
+    Conflict between rule 82 and token '>' resolved as shift (MTE < '>').
+    Conflict between rule 82 and token '<' resolved as shift (MTE < '<').
+    Conflict between rule 82 and token LE resolved as shift (MTE < LE).
+    Conflict between rule 82 and token GE resolved as shift (MTE < GE).
+    Conflict between rule 82 and token NE resolved as shift (MTE < NE).
+    Conflict between rule 82 and token EQ resolved as shift (MTE < EQ).
+    Conflict between rule 82 and token '+' resolved as shift (MTE < '+').
+    Conflict between rule 82 and token '-' resolved as shift (MTE < '-').
+    Conflict between rule 82 and token '*' resolved as shift (MTE < '*').
+    Conflict between rule 82 and token '/' resolved as shift (MTE < '/').
+    Conflict between rule 82 and token '%' resolved as shift (MTE < '%').
+    Conflict between rule 82 and token POW resolved as shift (MTE < POW).
+
+
+state 109
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr  [':', ';', ')', ',']
+   81     | expr ME expr .  [':', ';', ')', ',']
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 81 (expr)
+
+    Conflict between rule 81 and token DE resolved as shift (%right DE).
+    Conflict between rule 81 and token MTE resolved as shift (%right MTE).
+    Conflict between rule 81 and token ME resolved as shift (%right ME).
+    Conflict between rule 81 and token PE resolved as shift (%right PE).
+    Conflict between rule 81 and token '?' resolved as shift (ME < '?').
+    Conflict between rule 81 and token KOR resolved as shift (ME < KOR).
+    Conflict between rule 81 and token KAND resolved as shift (ME < KAND).
+    Conflict between rule 81 and token '>' resolved as shift (ME < '>').
+    Conflict between rule 81 and token '<' resolved as shift (ME < '<').
+    Conflict between rule 81 and token LE resolved as shift (ME < LE).
+    Conflict between rule 81 and token GE resolved as shift (ME < GE).
+    Conflict between rule 81 and token NE resolved as shift (ME < NE).
+    Conflict between rule 81 and token EQ resolved as shift (ME < EQ).
+    Conflict between rule 81 and token '+' resolved as shift (ME < '+').
+    Conflict between rule 81 and token '-' resolved as shift (ME < '-').
+    Conflict between rule 81 and token '*' resolved as shift (ME < '*').
+    Conflict between rule 81 and token '/' resolved as shift (ME < '/').
+    Conflict between rule 81 and token '%' resolved as shift (ME < '%').
+    Conflict between rule 81 and token POW resolved as shift (ME < POW).
+
+
+state 110
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr  [':', ';', ')', ',']
+   80     | expr PE expr .  [':', ';', ')', ',']
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 80 (expr)
+
+    Conflict between rule 80 and token DE resolved as shift (%right DE).
+    Conflict between rule 80 and token MTE resolved as shift (%right MTE).
+    Conflict between rule 80 and token ME resolved as shift (%right ME).
+    Conflict between rule 80 and token PE resolved as shift (%right PE).
+    Conflict between rule 80 and token '?' resolved as shift (PE < '?').
+    Conflict between rule 80 and token KOR resolved as shift (PE < KOR).
+    Conflict between rule 80 and token KAND resolved as shift (PE < KAND).
+    Conflict between rule 80 and token '>' resolved as shift (PE < '>').
+    Conflict between rule 80 and token '<' resolved as shift (PE < '<').
+    Conflict between rule 80 and token LE resolved as shift (PE < LE).
+    Conflict between rule 80 and token GE resolved as shift (PE < GE).
+    Conflict between rule 80 and token NE resolved as shift (PE < NE).
+    Conflict between rule 80 and token EQ resolved as shift (PE < EQ).
+    Conflict between rule 80 and token '+' resolved as shift (PE < '+').
+    Conflict between rule 80 and token '-' resolved as shift (PE < '-').
+    Conflict between rule 80 and token '*' resolved as shift (PE < '*').
+    Conflict between rule 80 and token '/' resolved as shift (PE < '/').
+    Conflict between rule 80 and token '%' resolved as shift (PE < '%').
+    Conflict between rule 80 and token POW resolved as shift (PE < POW).
+
+
+state 111
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   75     | expr '?' expr . ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    ':'   shift, and go to state 142
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+
+state 112
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr  [DE, MTE, ME, PE, '?', ':', KOR, ';', ')', ',']
+   71     | expr KOR expr .  [DE, MTE, ME, PE, '?', ':', KOR, ';', ')', ',']
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 71 (expr)
+
+    Conflict between rule 71 and token DE resolved as reduce (DE < KOR).
+    Conflict between rule 71 and token MTE resolved as reduce (MTE < KOR).
+    Conflict between rule 71 and token ME resolved as reduce (ME < KOR).
+    Conflict between rule 71 and token PE resolved as reduce (PE < KOR).
+    Conflict between rule 71 and token '?' resolved as reduce ('?' < KOR).
+    Conflict between rule 71 and token KOR resolved as reduce (%left KOR).
+    Conflict between rule 71 and token KAND resolved as shift (KOR < KAND).
+    Conflict between rule 71 and token '>' resolved as shift (KOR < '>').
+    Conflict between rule 71 and token '<' resolved as shift (KOR < '<').
+    Conflict between rule 71 and token LE resolved as shift (KOR < LE).
+    Conflict between rule 71 and token GE resolved as shift (KOR < GE).
+    Conflict between rule 71 and token NE resolved as shift (KOR < NE).
+    Conflict between rule 71 and token EQ resolved as shift (KOR < EQ).
+    Conflict between rule 71 and token '+' resolved as shift (KOR < '+').
+    Conflict between rule 71 and token '-' resolved as shift (KOR < '-').
+    Conflict between rule 71 and token '*' resolved as shift (KOR < '*').
+    Conflict between rule 71 and token '/' resolved as shift (KOR < '/').
+    Conflict between rule 71 and token '%' resolved as shift (KOR < '%').
+    Conflict between rule 71 and token POW resolved as shift (KOR < POW).
+
+
+state 113
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, ';', ')', ',']
+   72     | expr KAND expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, ';', ')', ',']
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    '>'  shift, and go to state 72
+    '<'  shift, and go to state 73
+    LE   shift, and go to state 74
+    GE   shift, and go to state 75
+    NE   shift, and go to state 76
+    EQ   shift, and go to state 77
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 72 (expr)
+
+    Conflict between rule 72 and token DE resolved as reduce (DE < KAND).
+    Conflict between rule 72 and token MTE resolved as reduce (MTE < KAND).
+    Conflict between rule 72 and token ME resolved as reduce (ME < KAND).
+    Conflict between rule 72 and token PE resolved as reduce (PE < KAND).
+    Conflict between rule 72 and token '?' resolved as reduce ('?' < KAND).
+    Conflict between rule 72 and token KOR resolved as reduce (KOR < KAND).
+    Conflict between rule 72 and token KAND resolved as reduce (%left KAND).
+    Conflict between rule 72 and token '>' resolved as shift (KAND < '>').
+    Conflict between rule 72 and token '<' resolved as shift (KAND < '<').
+    Conflict between rule 72 and token LE resolved as shift (KAND < LE).
+    Conflict between rule 72 and token GE resolved as shift (KAND < GE).
+    Conflict between rule 72 and token NE resolved as shift (KAND < NE).
+    Conflict between rule 72 and token EQ resolved as shift (KAND < EQ).
+    Conflict between rule 72 and token '+' resolved as shift (KAND < '+').
+    Conflict between rule 72 and token '-' resolved as shift (KAND < '-').
+    Conflict between rule 72 and token '*' resolved as shift (KAND < '*').
+    Conflict between rule 72 and token '/' resolved as shift (KAND < '/').
+    Conflict between rule 72 and token '%' resolved as shift (KAND < '%').
+    Conflict between rule 72 and token POW resolved as shift (KAND < POW).
+
+
+state 114
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   66     | expr '>' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    NE   shift, and go to state 76
+    EQ   shift, and go to state 77
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 66 (expr)
+
+    Conflict between rule 66 and token DE resolved as reduce (DE < '>').
+    Conflict between rule 66 and token MTE resolved as reduce (MTE < '>').
+    Conflict between rule 66 and token ME resolved as reduce (ME < '>').
+    Conflict between rule 66 and token PE resolved as reduce (PE < '>').
+    Conflict between rule 66 and token '?' resolved as reduce ('?' < '>').
+    Conflict between rule 66 and token KOR resolved as reduce (KOR < '>').
+    Conflict between rule 66 and token KAND resolved as reduce (KAND < '>').
+    Conflict between rule 66 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 66 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 66 and token LE resolved as reduce (%left LE).
+    Conflict between rule 66 and token GE resolved as reduce (%left GE).
+    Conflict between rule 66 and token NE resolved as shift ('>' < NE).
+    Conflict between rule 66 and token EQ resolved as shift ('>' < EQ).
+    Conflict between rule 66 and token '+' resolved as shift ('>' < '+').
+    Conflict between rule 66 and token '-' resolved as shift ('>' < '-').
+    Conflict between rule 66 and token '*' resolved as shift ('>' < '*').
+    Conflict between rule 66 and token '/' resolved as shift ('>' < '/').
+    Conflict between rule 66 and token '%' resolved as shift ('>' < '%').
+    Conflict between rule 66 and token POW resolved as shift ('>' < POW).
+
+
+state 115
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   65     | expr '<' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    NE   shift, and go to state 76
+    EQ   shift, and go to state 77
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 65 (expr)
+
+    Conflict between rule 65 and token DE resolved as reduce (DE < '<').
+    Conflict between rule 65 and token MTE resolved as reduce (MTE < '<').
+    Conflict between rule 65 and token ME resolved as reduce (ME < '<').
+    Conflict between rule 65 and token PE resolved as reduce (PE < '<').
+    Conflict between rule 65 and token '?' resolved as reduce ('?' < '<').
+    Conflict between rule 65 and token KOR resolved as reduce (KOR < '<').
+    Conflict between rule 65 and token KAND resolved as reduce (KAND < '<').
+    Conflict between rule 65 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 65 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 65 and token LE resolved as reduce (%left LE).
+    Conflict between rule 65 and token GE resolved as reduce (%left GE).
+    Conflict between rule 65 and token NE resolved as shift ('<' < NE).
+    Conflict between rule 65 and token EQ resolved as shift ('<' < EQ).
+    Conflict between rule 65 and token '+' resolved as shift ('<' < '+').
+    Conflict between rule 65 and token '-' resolved as shift ('<' < '-').
+    Conflict between rule 65 and token '*' resolved as shift ('<' < '*').
+    Conflict between rule 65 and token '/' resolved as shift ('<' < '/').
+    Conflict between rule 65 and token '%' resolved as shift ('<' < '%').
+    Conflict between rule 65 and token POW resolved as shift ('<' < POW).
+
+
+state 116
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   69     | expr LE expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    NE   shift, and go to state 76
+    EQ   shift, and go to state 77
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 69 (expr)
+
+    Conflict between rule 69 and token DE resolved as reduce (DE < LE).
+    Conflict between rule 69 and token MTE resolved as reduce (MTE < LE).
+    Conflict between rule 69 and token ME resolved as reduce (ME < LE).
+    Conflict between rule 69 and token PE resolved as reduce (PE < LE).
+    Conflict between rule 69 and token '?' resolved as reduce ('?' < LE).
+    Conflict between rule 69 and token KOR resolved as reduce (KOR < LE).
+    Conflict between rule 69 and token KAND resolved as reduce (KAND < LE).
+    Conflict between rule 69 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 69 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 69 and token LE resolved as reduce (%left LE).
+    Conflict between rule 69 and token GE resolved as reduce (%left GE).
+    Conflict between rule 69 and token NE resolved as shift (LE < NE).
+    Conflict between rule 69 and token EQ resolved as shift (LE < EQ).
+    Conflict between rule 69 and token '+' resolved as shift (LE < '+').
+    Conflict between rule 69 and token '-' resolved as shift (LE < '-').
+    Conflict between rule 69 and token '*' resolved as shift (LE < '*').
+    Conflict between rule 69 and token '/' resolved as shift (LE < '/').
+    Conflict between rule 69 and token '%' resolved as shift (LE < '%').
+    Conflict between rule 69 and token POW resolved as shift (LE < POW).
+
+
+state 117
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   68     | expr GE expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, ';', ')', ',']
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    NE   shift, and go to state 76
+    EQ   shift, and go to state 77
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 68 (expr)
+
+    Conflict between rule 68 and token DE resolved as reduce (DE < GE).
+    Conflict between rule 68 and token MTE resolved as reduce (MTE < GE).
+    Conflict between rule 68 and token ME resolved as reduce (ME < GE).
+    Conflict between rule 68 and token PE resolved as reduce (PE < GE).
+    Conflict between rule 68 and token '?' resolved as reduce ('?' < GE).
+    Conflict between rule 68 and token KOR resolved as reduce (KOR < GE).
+    Conflict between rule 68 and token KAND resolved as reduce (KAND < GE).
+    Conflict between rule 68 and token '>' resolved as reduce (%left '>').
+    Conflict between rule 68 and token '<' resolved as reduce (%left '<').
+    Conflict between rule 68 and token LE resolved as reduce (%left LE).
+    Conflict between rule 68 and token GE resolved as reduce (%left GE).
+    Conflict between rule 68 and token NE resolved as shift (GE < NE).
+    Conflict between rule 68 and token EQ resolved as shift (GE < EQ).
+    Conflict between rule 68 and token '+' resolved as shift (GE < '+').
+    Conflict between rule 68 and token '-' resolved as shift (GE < '-').
+    Conflict between rule 68 and token '*' resolved as shift (GE < '*').
+    Conflict between rule 68 and token '/' resolved as shift (GE < '/').
+    Conflict between rule 68 and token '%' resolved as shift (GE < '%').
+    Conflict between rule 68 and token POW resolved as shift (GE < POW).
+
+
+state 118
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, ';', ')', ',']
+   70     | expr NE expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, ';', ')', ',']
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 70 (expr)
+
+    Conflict between rule 70 and token DE resolved as reduce (DE < NE).
+    Conflict between rule 70 and token MTE resolved as reduce (MTE < NE).
+    Conflict between rule 70 and token ME resolved as reduce (ME < NE).
+    Conflict between rule 70 and token PE resolved as reduce (PE < NE).
+    Conflict between rule 70 and token '?' resolved as reduce ('?' < NE).
+    Conflict between rule 70 and token KOR resolved as reduce (KOR < NE).
+    Conflict between rule 70 and token KAND resolved as reduce (KAND < NE).
+    Conflict between rule 70 and token '>' resolved as reduce ('>' < NE).
+    Conflict between rule 70 and token '<' resolved as reduce ('<' < NE).
+    Conflict between rule 70 and token LE resolved as reduce (LE < NE).
+    Conflict between rule 70 and token GE resolved as reduce (GE < NE).
+    Conflict between rule 70 and token NE resolved as reduce (%left NE).
+    Conflict between rule 70 and token EQ resolved as reduce (%left EQ).
+    Conflict between rule 70 and token '+' resolved as shift (NE < '+').
+    Conflict between rule 70 and token '-' resolved as shift (NE < '-').
+    Conflict between rule 70 and token '*' resolved as shift (NE < '*').
+    Conflict between rule 70 and token '/' resolved as shift (NE < '/').
+    Conflict between rule 70 and token '%' resolved as shift (NE < '%').
+    Conflict between rule 70 and token POW resolved as shift (NE < POW).
+
+
+state 119
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, ';', ')', ',']
+   67     | expr EQ expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, ';', ')', ',']
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    '+'  shift, and go to state 78
+    '-'  shift, and go to state 79
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 67 (expr)
+
+    Conflict between rule 67 and token DE resolved as reduce (DE < EQ).
+    Conflict between rule 67 and token MTE resolved as reduce (MTE < EQ).
+    Conflict between rule 67 and token ME resolved as reduce (ME < EQ).
+    Conflict between rule 67 and token PE resolved as reduce (PE < EQ).
+    Conflict between rule 67 and token '?' resolved as reduce ('?' < EQ).
+    Conflict between rule 67 and token KOR resolved as reduce (KOR < EQ).
+    Conflict between rule 67 and token KAND resolved as reduce (KAND < EQ).
+    Conflict between rule 67 and token '>' resolved as reduce ('>' < EQ).
+    Conflict between rule 67 and token '<' resolved as reduce ('<' < EQ).
+    Conflict between rule 67 and token LE resolved as reduce (LE < EQ).
+    Conflict between rule 67 and token GE resolved as reduce (GE < EQ).
+    Conflict between rule 67 and token NE resolved as reduce (%left NE).
+    Conflict between rule 67 and token EQ resolved as reduce (%left EQ).
+    Conflict between rule 67 and token '+' resolved as shift (EQ < '+').
+    Conflict between rule 67 and token '-' resolved as shift (EQ < '-').
+    Conflict between rule 67 and token '*' resolved as shift (EQ < '*').
+    Conflict between rule 67 and token '/' resolved as shift (EQ < '/').
+    Conflict between rule 67 and token '%' resolved as shift (EQ < '%').
+    Conflict between rule 67 and token POW resolved as shift (EQ < POW).
+
+
+state 120
+
+   59 expr: expr . '+' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', ';', ')', ',']
+   59     | expr '+' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', ';', ')', ',']
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 59 (expr)
+
+    Conflict between rule 59 and token DE resolved as reduce (DE < '+').
+    Conflict between rule 59 and token MTE resolved as reduce (MTE < '+').
+    Conflict between rule 59 and token ME resolved as reduce (ME < '+').
+    Conflict between rule 59 and token PE resolved as reduce (PE < '+').
+    Conflict between rule 59 and token '?' resolved as reduce ('?' < '+').
+    Conflict between rule 59 and token KOR resolved as reduce (KOR < '+').
+    Conflict between rule 59 and token KAND resolved as reduce (KAND < '+').
+    Conflict between rule 59 and token '>' resolved as reduce ('>' < '+').
+    Conflict between rule 59 and token '<' resolved as reduce ('<' < '+').
+    Conflict between rule 59 and token LE resolved as reduce (LE < '+').
+    Conflict between rule 59 and token GE resolved as reduce (GE < '+').
+    Conflict between rule 59 and token NE resolved as reduce (NE < '+').
+    Conflict between rule 59 and token EQ resolved as reduce (EQ < '+').
+    Conflict between rule 59 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 59 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 59 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 59 and token '/' resolved as shift ('+' < '/').
+    Conflict between rule 59 and token '%' resolved as shift ('+' < '%').
+    Conflict between rule 59 and token POW resolved as shift ('+' < POW).
+
+
+state 121
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', ';', ')', ',']
+   60     | expr '-' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', ';', ')', ',']
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    '*'  shift, and go to state 80
+    '/'  shift, and go to state 81
+    '%'  shift, and go to state 82
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 60 (expr)
+
+    Conflict between rule 60 and token DE resolved as reduce (DE < '-').
+    Conflict between rule 60 and token MTE resolved as reduce (MTE < '-').
+    Conflict between rule 60 and token ME resolved as reduce (ME < '-').
+    Conflict between rule 60 and token PE resolved as reduce (PE < '-').
+    Conflict between rule 60 and token '?' resolved as reduce ('?' < '-').
+    Conflict between rule 60 and token KOR resolved as reduce (KOR < '-').
+    Conflict between rule 60 and token KAND resolved as reduce (KAND < '-').
+    Conflict between rule 60 and token '>' resolved as reduce ('>' < '-').
+    Conflict between rule 60 and token '<' resolved as reduce ('<' < '-').
+    Conflict between rule 60 and token LE resolved as reduce (LE < '-').
+    Conflict between rule 60 and token GE resolved as reduce (GE < '-').
+    Conflict between rule 60 and token NE resolved as reduce (NE < '-').
+    Conflict between rule 60 and token EQ resolved as reduce (EQ < '-').
+    Conflict between rule 60 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 60 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 60 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 60 and token '/' resolved as shift ('-' < '/').
+    Conflict between rule 60 and token '%' resolved as shift ('-' < '%').
+    Conflict between rule 60 and token POW resolved as shift ('-' < POW).
+
+
+state 122
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   61     | expr '*' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 61 (expr)
+
+    Conflict between rule 61 and token DE resolved as reduce (DE < '*').
+    Conflict between rule 61 and token MTE resolved as reduce (MTE < '*').
+    Conflict between rule 61 and token ME resolved as reduce (ME < '*').
+    Conflict between rule 61 and token PE resolved as reduce (PE < '*').
+    Conflict between rule 61 and token '?' resolved as reduce ('?' < '*').
+    Conflict between rule 61 and token KOR resolved as reduce (KOR < '*').
+    Conflict between rule 61 and token KAND resolved as reduce (KAND < '*').
+    Conflict between rule 61 and token '>' resolved as reduce ('>' < '*').
+    Conflict between rule 61 and token '<' resolved as reduce ('<' < '*').
+    Conflict between rule 61 and token LE resolved as reduce (LE < '*').
+    Conflict between rule 61 and token GE resolved as reduce (GE < '*').
+    Conflict between rule 61 and token NE resolved as reduce (NE < '*').
+    Conflict between rule 61 and token EQ resolved as reduce (EQ < '*').
+    Conflict between rule 61 and token '+' resolved as reduce ('+' < '*').
+    Conflict between rule 61 and token '-' resolved as reduce ('-' < '*').
+    Conflict between rule 61 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 61 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 61 and token '%' resolved as reduce (%left '%').
+    Conflict between rule 61 and token POW resolved as shift ('*' < POW).
+
+
+state 123
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   62     | expr '/' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 62 (expr)
+
+    Conflict between rule 62 and token DE resolved as reduce (DE < '/').
+    Conflict between rule 62 and token MTE resolved as reduce (MTE < '/').
+    Conflict between rule 62 and token ME resolved as reduce (ME < '/').
+    Conflict between rule 62 and token PE resolved as reduce (PE < '/').
+    Conflict between rule 62 and token '?' resolved as reduce ('?' < '/').
+    Conflict between rule 62 and token KOR resolved as reduce (KOR < '/').
+    Conflict between rule 62 and token KAND resolved as reduce (KAND < '/').
+    Conflict between rule 62 and token '>' resolved as reduce ('>' < '/').
+    Conflict between rule 62 and token '<' resolved as reduce ('<' < '/').
+    Conflict between rule 62 and token LE resolved as reduce (LE < '/').
+    Conflict between rule 62 and token GE resolved as reduce (GE < '/').
+    Conflict between rule 62 and token NE resolved as reduce (NE < '/').
+    Conflict between rule 62 and token EQ resolved as reduce (EQ < '/').
+    Conflict between rule 62 and token '+' resolved as reduce ('+' < '/').
+    Conflict between rule 62 and token '-' resolved as reduce ('-' < '/').
+    Conflict between rule 62 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 62 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 62 and token '%' resolved as reduce (%left '%').
+    Conflict between rule 62 and token POW resolved as shift ('/' < POW).
+
+
+state 124
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   63     | expr '%' expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 63 (expr)
+
+    Conflict between rule 63 and token DE resolved as reduce (DE < '%').
+    Conflict between rule 63 and token MTE resolved as reduce (MTE < '%').
+    Conflict between rule 63 and token ME resolved as reduce (ME < '%').
+    Conflict between rule 63 and token PE resolved as reduce (PE < '%').
+    Conflict between rule 63 and token '?' resolved as reduce ('?' < '%').
+    Conflict between rule 63 and token KOR resolved as reduce (KOR < '%').
+    Conflict between rule 63 and token KAND resolved as reduce (KAND < '%').
+    Conflict between rule 63 and token '>' resolved as reduce ('>' < '%').
+    Conflict between rule 63 and token '<' resolved as reduce ('<' < '%').
+    Conflict between rule 63 and token LE resolved as reduce (LE < '%').
+    Conflict between rule 63 and token GE resolved as reduce (GE < '%').
+    Conflict between rule 63 and token NE resolved as reduce (NE < '%').
+    Conflict between rule 63 and token EQ resolved as reduce (EQ < '%').
+    Conflict between rule 63 and token '+' resolved as reduce ('+' < '%').
+    Conflict between rule 63 and token '-' resolved as reduce ('-' < '%').
+    Conflict between rule 63 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 63 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 63 and token '%' resolved as reduce (%left '%').
+    Conflict between rule 63 and token POW resolved as shift ('%' < POW).
+
+
+state 125
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   64     | expr POW expr .  [DE, MTE, ME, PE, '?', ':', KOR, KAND, '>', '<', LE, GE, NE, EQ, '+', '-', '*', '/', '%', ';', ')', ',']
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    POW  shift, and go to state 83
+
+    $default  reduce using rule 64 (expr)
+
+    Conflict between rule 64 and token DE resolved as reduce (DE < POW).
+    Conflict between rule 64 and token MTE resolved as reduce (MTE < POW).
+    Conflict between rule 64 and token ME resolved as reduce (ME < POW).
+    Conflict between rule 64 and token PE resolved as reduce (PE < POW).
+    Conflict between rule 64 and token '?' resolved as reduce ('?' < POW).
+    Conflict between rule 64 and token KOR resolved as reduce (KOR < POW).
+    Conflict between rule 64 and token KAND resolved as reduce (KAND < POW).
+    Conflict between rule 64 and token '>' resolved as reduce ('>' < POW).
+    Conflict between rule 64 and token '<' resolved as reduce ('<' < POW).
+    Conflict between rule 64 and token LE resolved as reduce (LE < POW).
+    Conflict between rule 64 and token GE resolved as reduce (GE < POW).
+    Conflict between rule 64 and token NE resolved as reduce (NE < POW).
+    Conflict between rule 64 and token EQ resolved as reduce (EQ < POW).
+    Conflict between rule 64 and token '+' resolved as reduce ('+' < POW).
+    Conflict between rule 64 and token '-' resolved as reduce ('-' < POW).
+    Conflict between rule 64 and token '*' resolved as reduce ('*' < POW).
+    Conflict between rule 64 and token '/' resolved as reduce ('/' < POW).
+    Conflict between rule 64 and token '%' resolved as reduce ('%' < POW).
+    Conflict between rule 64 and token POW resolved as shift (%right POW).
+
+
+state 126
+
+   56 expr: var '=' expr .  [':', ';', ')', ',']
+   59     | expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 56 (expr)
+
+    Conflict between rule 56 and token DE resolved as shift (%right DE).
+    Conflict between rule 56 and token MTE resolved as shift (%right MTE).
+    Conflict between rule 56 and token ME resolved as shift (%right ME).
+    Conflict between rule 56 and token PE resolved as shift (%right PE).
+    Conflict between rule 56 and token '?' resolved as shift ('=' < '?').
+    Conflict between rule 56 and token KOR resolved as shift ('=' < KOR).
+    Conflict between rule 56 and token KAND resolved as shift ('=' < KAND).
+    Conflict between rule 56 and token '>' resolved as shift ('=' < '>').
+    Conflict between rule 56 and token '<' resolved as shift ('=' < '<').
+    Conflict between rule 56 and token LE resolved as shift ('=' < LE).
+    Conflict between rule 56 and token GE resolved as shift ('=' < GE).
+    Conflict between rule 56 and token NE resolved as shift ('=' < NE).
+    Conflict between rule 56 and token EQ resolved as shift ('=' < EQ).
+    Conflict between rule 56 and token '+' resolved as shift ('=' < '+').
+    Conflict between rule 56 and token '-' resolved as shift ('=' < '-').
+    Conflict between rule 56 and token '*' resolved as shift ('=' < '*').
+    Conflict between rule 56 and token '/' resolved as shift ('=' < '/').
+    Conflict between rule 56 and token '%' resolved as shift ('=' < '%').
+    Conflict between rule 56 and token POW resolved as shift ('=' < POW).
+
+
+state 127
+
+   47 eparam_list: eparam_list . ',' expr
+   92 call: var '(' eparam_list . ')'
+
+    ')'  shift, and go to state 143
+    ','  shift, and go to state 144
+
+
+state 128
+
+   48 eparam_list: expr .  [')', ',']
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 48 (eparam_list)
+
+
+state 129
+
+   44 fparam_list: fparam_list ',' type . var
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 145
+
+
+state 130
+
+   10 stmt: KWHILE '(' expr . ')' stmt
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+    ')'   shift, and go to state 146
+
+
+state 131
+
+   15 stmt: KIF '(' expr . ')' stmt
+   16     | KIF '(' expr . ')' stmt KELSE stmt
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+    ')'   shift, and go to state 147
+
+
+state 132
+
+    8 stmt: KPRINT '(' eparam_list . ')' ';'
+   47 eparam_list: eparam_list . ',' expr
+
+    ')'  shift, and go to state 148
+    ','  shift, and go to state 144
+
+
+state 133
+
+   12 stmt: KRETURN expr_opt ';' .
+
+    $default  reduce using rule 12 (stmt)
+
+
+state 134
+
+   32 var_decl: var_decl . ',' var init_var
+   84 for1: var_decl .  [';']
+
+    ','  shift, and go to state 16
+
+    $default  reduce using rule 84 (for1)
+
+
+state 135
+
+   33 var_decl: type . var init_var
+   91 var: . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 17
+
+    var  go to state 149
+
+
+state 136
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+   85 for1: expr .  [';']
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 85 (for1)
+
+
+state 137
+
+   11 stmt: KFOR '(' for1 . ';' for2 ';' for3 ')' stmt
+
+    ';'  shift, and go to state 150
+
+
+state 138
+
+   17 stmt: KSWITCH '{' cond_list . defcond '}'
+   22 cond_list: cond_list . KCASE expr ':' stmt
+   24 defcond: . KDEFAULT ':' stmt
+   25        | .  ['}']
+
+    KCASE     shift, and go to state 151
+    KDEFAULT  shift, and go to state 152
+
+    $default  reduce using rule 25 (defcond)
+
+    defcond  go to state 153
+
+
+state 139
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   26 catch_opt: KCATCH . stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 154
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 140
+
+   18 stmt: KTRY stmt catch_opt . finally_opt
+   28 finally_opt: . KFINALLY stmt
+   29            | .  [error, INTEGER, BOOLEAN, FLOAT, STRING, IDENTIFIER, KWHILE, KIF, KPRINT, KRETURN, KBREAK, KFOR, KSWITCH, KCASE, KDEFAULT, KTRY, KCATCH, KFINALLY, KTHROW, TINT, TFLOAT, TBOOL, TSTRING, TVOID, KELSE, '+', '-', KNOT, MM, PP, ';', '(', '{', '}']
+
+    KFINALLY  shift, and go to state 155
+
+    KFINALLY  [reduce using rule 29 (finally_opt)]
+    $default  reduce using rule 29 (finally_opt)
+
+    finally_opt  go to state 156
+
+
+state 141
+
+    9 stmt: '{' stmt_list '}' .
+
+    $default  reduce using rule 9 (stmt)
+
+
+state 142
+
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   75     | expr '?' expr ':' . expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 157
+    var   go to state 38
+    call  go to state 39
+
+
+state 143
+
+   92 call: var '(' eparam_list ')' .
+
+    $default  reduce using rule 92 (call)
+
+
+state 144
+
+   47 eparam_list: eparam_list ',' . expr
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 158
+    var   go to state 38
+    call  go to state 39
+
+
+state 145
+
+   44 fparam_list: fparam_list ',' type var .
+
+    $default  reduce using rule 44 (fparam_list)
+
+
+state 146
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   10     | KWHILE '(' expr ')' . stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 159
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 147
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   15     | KIF '(' expr ')' . stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   16     | KIF '(' expr ')' . stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 160
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 148
+
+    8 stmt: KPRINT '(' eparam_list ')' . ';'
+
+    ';'  shift, and go to state 161
+
+
+state 149
+
+   33 var_decl: type var . init_var
+   34 init_var: . '=' expr
+   35         | .  [';', ',']
+
+    '='  shift, and go to state 22
+
+    $default  reduce using rule 35 (init_var)
+
+    init_var  go to state 24
+
+
+state 150
+
+   11 stmt: KFOR '(' for1 ';' . for2 ';' for3 ')' stmt
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   87 for2: . expr_opt
+   89 expr_opt: . expr
+   90         | .  [';']
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    $default  reduce using rule 90 (expr_opt)
+
+    expr      go to state 95
+    for2      go to state 162
+    expr_opt  go to state 163
+    var       go to state 38
+    call      go to state 39
+
+
+state 151
+
+   22 cond_list: cond_list KCASE . expr ':' stmt
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    expr  go to state 164
+    var   go to state 38
+    call  go to state 39
+
+
+state 152
+
+   24 defcond: KDEFAULT . ':' stmt
+
+    ':'  shift, and go to state 165
+
+
+state 153
+
+   17 stmt: KSWITCH '{' cond_list defcond . '}'
+
+    '}'  shift, and go to state 166
+
+
+state 154
+
+   26 catch_opt: KCATCH stmt .
+
+    $default  reduce using rule 26 (catch_opt)
+
+
+state 155
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   28 finally_opt: KFINALLY . stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 167
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 156
+
+   18 stmt: KTRY stmt catch_opt finally_opt .
+
+    $default  reduce using rule 18 (stmt)
+
+
+state 157
+
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr  [DE, MTE, ME, PE, ':', ';', ')', ',']
+   75     | expr '?' expr ':' expr .  [DE, MTE, ME, PE, ':', ';', ')', ',']
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 75 (expr)
+
+    Conflict between rule 75 and token DE resolved as reduce (DE < ':').
+    Conflict between rule 75 and token MTE resolved as reduce (MTE < ':').
+    Conflict between rule 75 and token ME resolved as reduce (ME < ':').
+    Conflict between rule 75 and token PE resolved as reduce (PE < ':').
+    Conflict between rule 75 and token '?' resolved as shift (%right '?').
+    Conflict between rule 75 and token KOR resolved as shift (':' < KOR).
+    Conflict between rule 75 and token KAND resolved as shift (':' < KAND).
+    Conflict between rule 75 and token '>' resolved as shift (':' < '>').
+    Conflict between rule 75 and token '<' resolved as shift (':' < '<').
+    Conflict between rule 75 and token LE resolved as shift (':' < LE).
+    Conflict between rule 75 and token GE resolved as shift (':' < GE).
+    Conflict between rule 75 and token NE resolved as shift (':' < NE).
+    Conflict between rule 75 and token EQ resolved as shift (':' < EQ).
+    Conflict between rule 75 and token '+' resolved as shift (':' < '+').
+    Conflict between rule 75 and token '-' resolved as shift (':' < '-').
+    Conflict between rule 75 and token '*' resolved as shift (':' < '*').
+    Conflict between rule 75 and token '/' resolved as shift (':' < '/').
+    Conflict between rule 75 and token '%' resolved as shift (':' < '%').
+    Conflict between rule 75 and token POW resolved as shift (':' < POW).
+
+
+state 158
+
+   47 eparam_list: eparam_list ',' expr .  [')', ',']
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+    $default  reduce using rule 47 (eparam_list)
+
+
+state 159
+
+   10 stmt: KWHILE '(' expr ')' stmt .
+
+    $default  reduce using rule 10 (stmt)
+
+
+state 160
+
+   15 stmt: KIF '(' expr ')' stmt .  [error, INTEGER, BOOLEAN, FLOAT, STRING, IDENTIFIER, KWHILE, KIF, KPRINT, KRETURN, KBREAK, KFOR, KSWITCH, KCASE, KDEFAULT, KTRY, KCATCH, KFINALLY, KTHROW, TINT, TFLOAT, TBOOL, TSTRING, TVOID, '+', '-', KNOT, MM, PP, ';', '(', '{', '}']
+   16     | KIF '(' expr ')' stmt . KELSE stmt
+
+    KELSE  shift, and go to state 168
+
+    $default  reduce using rule 15 (stmt)
+
+    Conflict between rule 15 and token KELSE resolved as shift (IFX < KELSE).
+
+
+state 161
+
+    8 stmt: KPRINT '(' eparam_list ')' ';' .
+
+    $default  reduce using rule 8 (stmt)
+
+
+state 162
+
+   11 stmt: KFOR '(' for1 ';' for2 . ';' for3 ')' stmt
+
+    ';'  shift, and go to state 169
+
+
+state 163
+
+   87 for2: expr_opt .
+
+    $default  reduce using rule 87 (for2)
+
+
+state 164
+
+   22 cond_list: cond_list KCASE expr . ':' stmt
+   59 expr: expr . '+' expr
+   60     | expr . '-' expr
+   61     | expr . '*' expr
+   62     | expr . '/' expr
+   63     | expr . '%' expr
+   64     | expr . POW expr
+   65     | expr . '<' expr
+   66     | expr . '>' expr
+   67     | expr . EQ expr
+   68     | expr . GE expr
+   69     | expr . LE expr
+   70     | expr . NE expr
+   71     | expr . KOR expr
+   72     | expr . KAND expr
+   75     | expr . '?' expr ':' expr
+   80     | expr . PE expr
+   81     | expr . ME expr
+   82     | expr . MTE expr
+   83     | expr . DE expr
+
+    DE    shift, and go to state 65
+    MTE   shift, and go to state 66
+    ME    shift, and go to state 67
+    PE    shift, and go to state 68
+    '?'   shift, and go to state 69
+    ':'   shift, and go to state 170
+    KOR   shift, and go to state 70
+    KAND  shift, and go to state 71
+    '>'   shift, and go to state 72
+    '<'   shift, and go to state 73
+    LE    shift, and go to state 74
+    GE    shift, and go to state 75
+    NE    shift, and go to state 76
+    EQ    shift, and go to state 77
+    '+'   shift, and go to state 78
+    '-'   shift, and go to state 79
+    '*'   shift, and go to state 80
+    '/'   shift, and go to state 81
+    '%'   shift, and go to state 82
+    POW   shift, and go to state 83
+
+
+state 165
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   24 defcond: KDEFAULT ':' . stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 171
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 166
+
+   17 stmt: KSWITCH '{' cond_list defcond '}' .
+
+    $default  reduce using rule 17 (stmt)
+
+
+state 167
+
+   28 finally_opt: KFINALLY stmt .
+
+    $default  reduce using rule 28 (finally_opt)
+
+
+state 168
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   16     | KIF '(' expr ')' stmt KELSE . stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 172
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 169
+
+   11 stmt: KFOR '(' for1 ';' for2 ';' . for3 ')' stmt
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   88 for3: . expr_opt
+   89 expr_opt: . expr
+   90         | .  [')']
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    '('         shift, and go to state 36
+
+    $default  reduce using rule 90 (expr_opt)
+
+    expr      go to state 95
+    for3      go to state 173
+    expr_opt  go to state 174
+    var       go to state 38
+    call      go to state 39
+
+
+state 170
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   22 cond_list: cond_list KCASE expr ':' . stmt
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 175
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 171
+
+   24 defcond: KDEFAULT ':' stmt .
+
+    $default  reduce using rule 24 (defcond)
+
+
+state 172
+
+   16 stmt: KIF '(' expr ')' stmt KELSE stmt .
+
+    $default  reduce using rule 16 (stmt)
+
+
+state 173
+
+   11 stmt: KFOR '(' for1 ';' for2 ';' for3 . ')' stmt
+
+    ')'  shift, and go to state 176
+
+
+state 174
+
+   88 for3: expr_opt .
+
+    $default  reduce using rule 88 (for3)
+
+
+state 175
+
+   22 cond_list: cond_list KCASE expr ':' stmt .
+
+    $default  reduce using rule 22 (cond_list)
+
+
+state 176
+
+    6 stmt: . ';'
+    7     | . expr ';'
+    8     | . KPRINT '(' eparam_list ')' ';'
+    9     | . '{' stmt_list '}'
+   10     | . KWHILE '(' expr ')' stmt
+   11     | . KFOR '(' for1 ';' for2 ';' for3 ')' stmt
+   11     | KFOR '(' for1 ';' for2 ';' for3 ')' . stmt
+   12     | . KRETURN expr_opt ';'
+   13     | . KBREAK ';'
+   14     | . KTHROW ';'
+   15     | . KIF '(' expr ')' stmt
+   16     | . KIF '(' expr ')' stmt KELSE stmt
+   17     | . KSWITCH '{' cond_list defcond '}'
+   18     | . KTRY stmt catch_opt finally_opt
+   19     | . var_decl ';'
+   20     | . prototype ';'
+   21     | . error ';'
+   32 var_decl: . var_decl ',' var init_var
+   33         | . type var init_var
+   36 type: . TINT
+   37     | . TFLOAT
+   38     | . TBOOL
+   39     | . TSTRING
+   40     | . TVOID
+   43 prototype: . type var '(' fparam_list ')'
+   50 expr: . INTEGER
+   51     | . FLOAT
+   52     | . BOOLEAN
+   53     | . STRING
+   54     | . var
+   55     | . call
+   56     | . var '=' expr
+   57     | . '-' expr
+   58     | . '+' expr
+   59     | . expr '+' expr
+   60     | . expr '-' expr
+   61     | . expr '*' expr
+   62     | . expr '/' expr
+   63     | . expr '%' expr
+   64     | . expr POW expr
+   65     | . expr '<' expr
+   66     | . expr '>' expr
+   67     | . expr EQ expr
+   68     | . expr GE expr
+   69     | . expr LE expr
+   70     | . expr NE expr
+   71     | . expr KOR expr
+   72     | . expr KAND expr
+   73     | . KNOT expr
+   74     | . '(' expr ')'
+   75     | . expr '?' expr ':' expr
+   76     | . PP var
+   77     | . MM var
+   78     | . var PP
+   79     | . var MM
+   80     | . expr PE expr
+   81     | . expr ME expr
+   82     | . expr MTE expr
+   83     | . expr DE expr
+   91 var: . IDENTIFIER
+   92 call: . var '(' eparam_list ')'
+
+    error       shift, and go to state 42
+    INTEGER     shift, and go to state 27
+    BOOLEAN     shift, and go to state 28
+    FLOAT       shift, and go to state 29
+    STRING      shift, and go to state 30
+    IDENTIFIER  shift, and go to state 17
+    KWHILE      shift, and go to state 43
+    KIF         shift, and go to state 44
+    KPRINT      shift, and go to state 45
+    KRETURN     shift, and go to state 46
+    KBREAK      shift, and go to state 47
+    KFOR        shift, and go to state 48
+    KSWITCH     shift, and go to state 49
+    KTRY        shift, and go to state 50
+    KTHROW      shift, and go to state 51
+    TINT        shift, and go to state 1
+    TFLOAT      shift, and go to state 2
+    TBOOL       shift, and go to state 3
+    TSTRING     shift, and go to state 4
+    TVOID       shift, and go to state 5
+    '+'         shift, and go to state 31
+    '-'         shift, and go to state 32
+    KNOT        shift, and go to state 33
+    MM          shift, and go to state 34
+    PP          shift, and go to state 35
+    ';'         shift, and go to state 52
+    '('         shift, and go to state 36
+    '{'         shift, and go to state 53
+
+    stmt       go to state 177
+    var_decl   go to state 56
+    type       go to state 10
+    prototype  go to state 57
+    expr       go to state 58
+    var        go to state 38
+    call       go to state 39
+
+
+state 177
+
+   11 stmt: KFOR '(' for1 ';' for2 ';' for3 ')' stmt .
+
+    $default  reduce using rule 11 (stmt)

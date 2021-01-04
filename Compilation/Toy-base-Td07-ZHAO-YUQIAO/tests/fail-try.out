@@ -1,0 +1,3 @@
+fail-try.toy:23: z is not declared
+fail-try.toy:25: operands of assignment have incompatible types
+*** 2 errors detected

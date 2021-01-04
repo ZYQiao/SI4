@@ -1,0 +1,25 @@
+*** A simple for
+  i = 0
+  i = 1
+  i = 2
+  i = 3
+  i = 4
+*** Another one with a local declaration
+  j = 0
+  j = 1
+  j = 2
+  j = 3
+  j = 4
+** One with a local variable already declared
+  k = 0
+  k = 1
+  k = 2
+  k = 3
+  k = 4
+*** An "empty" for
+  x = 5
+  x = 4
+  x = 3
+  x = 2
+  x = 1
+SUCCESS

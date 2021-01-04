@@ -1,0 +1,5 @@
+fail-var-decl.toy:14: operands of && have incompatible types
+fail-var-decl.toy:14: operands of && must be bool
+fail-var-decl.toy:21: initializer for 'y' is not constant
+fail-var-decl.toy:21: initializer for 'z' is not constant
+*** 4 errors detected

@@ -1,0 +1,7 @@
+Test with numbers
+Ox12 = 18
+012  = 10
+12   = 12
++12  = 12
+-12  = -12
+End of test: SUCCESS

@@ -1,0 +1,5 @@
+We'll see this message
+We are in foo
+This message will be displayed if we have an exception
+This message will be always printed
+SUCCESS

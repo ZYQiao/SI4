@@ -1,0 +1,3 @@
+fail-for.toy:14: condition must be boolean
+fail-for.toy:16: break used outside a loop
+*** 2 errors detected

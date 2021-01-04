@@ -1,0 +1,11 @@
+fail-func-decl.toy:12: name 'x' was already used for paramater #1
+fail-func-decl.toy:15: type of parameter cannot be void
+fail-func-decl.toy:15: name 'x' was already used for paramater #1
+fail-func-decl.toy:15: x is already declared
+fail-func-decl.toy:16: type of expression is incompatible with function type
+fail-func-decl.toy:22: current function is void; expression unexpected here
+fail-func-decl.toy:33: operands of assignment have incompatible types
+fail-func-decl.toy:34: call or definition of 'bar' has not enough parameters
+fail-func-decl.toy:35: type of parameter #1 is not compatible with previous definition of 'bar'
+fail-func-decl.toy:36: call or definition of 'bar' has too much parameters
+*** 10 errors detected
