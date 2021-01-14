@@ -293,36 +293,6 @@ ast_node *make_if_statement(ast_node *cond, ast_node *tpart, ast_node *epart) {
   return (ast_node *) p;
 }
 
-/* ---- SWITCH ------------------------------------------------------------ */
-static void free_switch_statement(ast_node *node){
-  list_destroy(((struct s_switch_statement *)node)->parameters);
-  free_node(((struct s_switch_statement *)node)->expr_default);
-  free(node);
-}
-
-ast_node *make_switch_statement(List parameters,ast_node *expr_default)
-{
-  DEF_AST(p, switch_statement, NULL);
-  p->parameters = parameters;
-  p->expr_default = expr_default;
-  return (ast_node *) p;
-}
-
-/* ---- TRY ------------------------------------------------------------ */
-static void free_try_statement(ast_node *node){
-  struct s_try_statement *n = (struct s_try_statement *) node;
-  free_node(n->try_stmt);free_node(n->catch_stmt);free_node(n->finally_stmt);
-  free(node);
-}
-
-ast_node *make_try_statement(ast_node *try_stmt,ast_node *catch_stmt,ast_node *finally_stmt)
-{
-  DEF_AST(p, try_statement, NULL);
-  p->try_stmt = try_stmt;
-  p->catch_stmt = catch_stmt;
-  p->finally_stmt = finally_stmt;
-  return (ast_node *) p;
-}
 
 /* ---- WHILE ------------------------------------------------------------ */
 static void free_while_statement(ast_node *node){
@@ -416,6 +386,37 @@ static void free_break_statement(ast_node *node){
 ast_node *make_break_statement(void)
 {
   DEF_AST(p, break_statement, NULL);
+  return (ast_node *) p;
+}
+
+/* ---- SWITCH ------------------------------------------------------------ */
+static void free_switch_statement(ast_node *node){
+  list_destroy(((struct s_switch_statement *)node)->parameters);
+  free_node(((struct s_switch_statement *)node)->expr_default);
+  free(node);
+}
+
+ast_node *make_switch_statement(List parameters,ast_node *expr_default)
+{
+  DEF_AST(p, switch_statement, NULL);
+  p->parameters = parameters;
+  p->expr_default = expr_default;
+  return (ast_node *) p;
+}
+
+/* ---- TRY ------------------------------------------------------------ */
+static void free_try_statement(ast_node *node){
+  struct s_try_statement *n = (struct s_try_statement *) node;
+  free_node(n->try_stmt);free_node(n->catch_stmt);free_node(n->finally_stmt);
+  free(node);
+}
+
+ast_node *make_try_statement(ast_node *try_stmt,ast_node *catch_stmt,ast_node *finally_stmt)
+{
+  DEF_AST(p, try_statement, NULL);
+  p->try_stmt = try_stmt;
+  p->catch_stmt = catch_stmt;
+  p->finally_stmt = finally_stmt;
   return (ast_node *) p;
 }
 
